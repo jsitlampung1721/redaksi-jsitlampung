@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Portal Berita & Pers Organisasi</title>
 
-  <!-- Favicon Google Drive Baru -->
-<link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/10-g6lWxfWwqBso3Wfh9RHMA5eyaV5YYY">
+  <!-- Favicon Google Drive -->
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/10-g6lWxfWwqBso3Wfh9RHMA5eyaV5YYY">
 
   <!-- Google Fonts & Bootstrap -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -698,7 +698,7 @@
   </div>
 
   <script>
-    // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+    // URL WEB APP GOOGLE APPS SCRIPT
     const API_URL = "https://script.google.com/macros/s/AKfycbwp6gqwTkvq84_lzCIM-td6TMew9xDCc2yaYweBxphfWbBJc263dC4DbC9g0HQf580R/exec";
 
     let currentUser = null;
@@ -715,13 +715,14 @@
       adminUsers: 1
     };
 
-    // HELPER CALL REST API
+    // HELPER CALL REST API DENGAN DUKUNGAN REDIRECT FOLLOW
     async function callApi(action, payload = {}) {
       try {
         const response = await fetch(API_URL, {
           method: "POST",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ action, ...payload })
+          body: JSON.stringify({ action, ...payload }),
+          redirect: "follow"
         });
         return await response.json();
       } catch (err) {

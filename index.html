@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portal Berita & Pers Organisasi</title>
+
+  <!-- Google Fonts & Bootstrap -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    :root {
+      --editorial-dark: #0f172a;
+      --editorial-navy: #1e293b;
+      --truth-gold: #f59e0b;
+      --truth-glow: rgba(245, 158, 11, 0.25);
+      --bg-editorial: #f1f5f9;
+      --wa-color: #25D366;
+    }
+
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background-color: var(--bg-editorial); 
+      color: #334155; 
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4, h5, .brand-title {
+      font-family: 'Lora', serif;
+    }
+
+    .navbar-custom { 
+      background: linear-gradient(135deg, #090d16, #1e293b);
+      border-bottom: 3px solid var(--truth-gold);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .brand-glow {
+      color: #ffffff;
+      text-shadow: 0 0 12px var(--truth-glow);
+    }
+
+    .card-editorial {
+      border: none;
+      border-top: 4px solid var(--truth-gold);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08), 0 0 18px var(--truth-glow);
+      background: #ffffff;
+    }
+
+    .auth-card { 
+      max-width: 460px; 
+      margin: 40px auto; 
+    }
+
+    .badge-menunggu { background-color: #f59e0b; color: #fff; }
+    .badge-disetujui { background-color: #10b981; color: #fff; }
+    .badge-ditolak { background-color: #ef4444; color: #fff; }
+    
+    .nav-pills .nav-link {
+      color: #475569;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-pills .nav-link.active { 
+      background-color: var(--editorial-navy); 
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2);
+    }
+
+    .press-badge-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      color: #b45309;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+    }
+
+    .journal-quote-bar {
+      border-left: 3px solid var(--truth-gold);
+      padding-left: 12px;
+      font-style: italic;
+      color: #64748b;
+    }
+
+    .stat-card {
+      border-radius: 14px;
+      border: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+    }
+    .stat-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+    }
+
+    .float-wa {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 25px;
+      right: 25px;
+      background-color: var(--wa-color);
+      color: #FFF;
+      border-radius: 50px;
+      text-align: center;
+      font-size: 32px;
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+      z-index: 1050;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .float-wa:hover {
+      background-color: #20ba5a;
+      color: #FFF;
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+    }
+    .float-wa-tooltip {
+      position: fixed;
+      bottom: 35px;
+      right: 95px;
+      background: #ffffff;
+      color: #0f172a;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+      z-index: 1049;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .table-toolbar {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="appNavbar" class="navbar navbar-expand-lg navbar-dark navbar-custom d-none mb-4">
+    <div class="container">
+      <a class="navbar-brand fw-bold brand-glow d-flex align-items-center gap-2" href="javascript:void(0)">
+        <i class="bi bi-feather text-warning fs-4"></i>
+        <span>Portal Redaksi & Pers</span>
+      </a>
+      <div class="d-flex align-items-center gap-3 text-white">
+        <span id="navUserInfo" class="small journal-quote-bar d-none d-md-inline-block"></span>
+        <button type="button" onclick="logout()" class="btn btn-outline-warning btn-sm fw-semibold rounded-pill px-3">
+          <i class="bi bi-box-arrow-right me-1"></i> Keluar
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTAINER UTAMA -->
+  <div class="container pb-5">
+
+    <!-- === AUTH SECTION === -->
+    <div id="authSection">
+      <div class="text-center my-4">
+        <div class="press-badge-icon mb-2">
+          <i class="bi bi-journal-richtext"></i>
+        </div>
+        <h2 class="fw-bold text-dark mb-1">Redaksi JSIT Lampung</h2>
+        <p class="text-muted small">Menyuarakan Kebenaran, Mengabarkan Fakta & Opini Terpercaya</p>
+      </div>
+
+      <!-- FORM LOGIN -->
+      <div id="loginBox" class="card card-editorial auth-card">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <h4 class="fw-bold text-dark mb-1"><i class="bi bi-key-fill text-warning me-2"></i>Masuk Portal</h4>
+            <p class="text-muted small">Silakan masuk dengan kredensial jurnalis/kontributor</p>
+          </div>
+          <div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Alamat Email</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
+                <input type="email" id="loginEmail" class="form-control" placeholder="nama@organisasi.or.id" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Kata Sandi</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-lock"></i></span>
+                <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+              </div>
+            </div>
+            <button type="button" id="btnLogin" onclick="handleLogin()" class="btn btn-dark w-100 py-2 fw-semibold shadow-sm mt-2">
+              <i class="bi bi-sign-in-out me-1"></i> Masuk Sekarang
+            </button>
+          </div>
+          <div class="text-center mt-4 pt-2 border-top">
+            <small class="text-muted">Belum terdaftar sebagai kontributor? <a href="javascript:void(0)" onclick="switchAuth('register')" class="fw-bold text-decoration-none text-warning">Daftar Akun</a></small>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORM REGISTER -->
+      <div id="registerBox" class="card card-editorial auth-card d-none">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <h4 class="fw-bold text-dark mb-1"><i class="bi bi-person-plus-fill text-warning me-2"></i>Daftar Kontributor</h4>
+            <p class="text-muted small">Bergabunglah untuk menerbitkan berita dan artikel opini</p>
+          </div>
+          <div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Nama Lengkap</label>
+              <input type="text" id="regNama" class="form-control" placeholder="Sesuai nama pena/kartu anggota" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Divisi / Jabatan</label>
+              <input type="text" id="regDivisi" class="form-control" placeholder="Contoh: Redaksi Humas / Anggota" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Email</label>
+              <input type="email" id="regEmail" class="form-control" placeholder="email@organisasi.or.id" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Password</label>
+              <input type="password" id="regPassword" class="form-control" placeholder="Buat kata sandi aman" required>
+            </div>
+            <button type="button" id="btnRegister" onclick="handleRegister()" class="btn btn-dark w-100 py-2 fw-semibold shadow-sm mt-2">
+              <i class="bi bi-check-circle me-1"></i> Registrasi Akun
+            </button>
+          </div>
+          <div class="text-center mt-4 pt-2 border-top">
+            <small class="text-muted">Sudah memiliki akun? <a href="javascript:void(0)" onclick="switchAuth('login')" class="fw-bold text-decoration-none text-warning">Masuk di sini</a></small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- === DASHBOARD USER === -->
+    <div id="userDashboard" class="d-none">
+      <ul class="nav nav-pills mb-4 gap-2" id="userTabs">
+        <li class="nav-item"><a class="nav-link active" href="javascript:void(0)" onclick="switchUserTab(event, 'kirimTab')"><i class="bi bi-pencil-square me-1"></i> Kirim Berita & Opini</a></li>
+        <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchUserTab(event, 'statusTab')"><i class="bi bi-hourglass-split me-1"></i> Pantau Status Moderasi</a></li>
+        <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchUserTab(event, 'riwayatTab')"><i class="bi bi-collection-play me-1"></i> Arsip Berita Saya</a></li>
+        <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchUserTab(event, 'profilTab')"><i class="bi bi-person-gear me-1"></i> Profil Jurnalis</a></li>
+      </ul>
+
+      <!-- USER TAB 1: FORM KIRIM BERITA -->
+      <div id="kirimTab" class="tab-content-user card card-editorial p-4 p-md-5">
+        <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-send-fill text-warning me-2"></i>Formulir Tulis & Pengajuan Berita</h4>
+        <p class="text-muted small mb-4">Pastikan naskah tulisan Anda objektif, akurat, dan sesuai kode etik publikasi.</p>
+        
+        <form id="newsForm">
+          <input type="hidden" name="userId" id="formUserId">
+          <input type="hidden" name="penulis" id="formPenulis">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Judul Berita / Artikel</label>
+            <input type="text" name="judul" class="form-control form-control-lg" placeholder="Tuliskan judul yang lugas dan menarik..." required>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6 mb-3 mb-md-0">
+              <label class="form-label fw-semibold">Kategori Publikasi</label>
+              <select name="kategori" class="form-select" required>
+                <option value="Kegiatan">📰 Liputan Kegiatan</option>
+                <option value="Pengumuman">📢 Pengumuman Resmi</option>
+                <option value="Prestasi">🏆 Prestasi Organisasi</option>
+                <option value="Opini">✍️ Artikel Opini / Gagasan</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Tanggal Kegiatan / Peristiwa</label>
+              <input type="date" name="tanggal" class="form-control" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Naskah Lengkap Berita</label>
+            <textarea name="isi" class="form-control" rows="7" placeholder="Tuliskan isi liputan berita atau opini secara lengkap di sini..." required></textarea>
+          </div>
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Foto Liputan Utama (Opsional)</label>
+            <input type="file" name="gambar" id="newsGambar" class="form-control" accept="image/*">
+            <div class="form-text">Unggah foto dokumentasi pendukung naskah berita.</div>
+          </div>
+          <button type="button" id="btnSubmitNews" onclick="handleNewsSubmit()" class="btn btn-dark fw-semibold px-4 py-2">
+            <i class="bi bi-cloud-upload me-1"></i> Kirimkan ke Redaksi
+          </button>
+        </form>
+      </div>
+
+      <!-- USER TAB 2: PANTAU STATUS -->
+      <div id="statusTab" class="tab-content-user d-none card card-editorial p-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-clock-history text-warning me-2"></i>Status Peninjauan Redaksi</h5>
+        
+        <div class="table-toolbar">
+          <div class="row g-2 align-items-center">
+            <div class="col-md-5">
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" id="searchUserStatus" class="form-control" placeholder="Cari judul berita atau catatan..." oninput="updateUserStatusTable()">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <select id="filterUserStatus" class="form-select form-select-sm" onchange="updateUserStatusTable()">
+                <option value="ALL">-- Semua Status Moderasi --</option>
+                <option value="Menunggu">Menunggu</option>
+                <option value="Disetujui">Disetujui</option>
+                <option value="Ditolak">Ditolak</option>
+              </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-center justify-content-md-end gap-2">
+              <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
+              <select id="limitUserStatus" class="form-select form-select-sm w-auto" onchange="updateUserStatusTable(true)">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr><th>No</th><th>Tanggal Kirim</th><th>Judul Berita</th><th>Status Moderasi</th><th>Catatan Editor</th></tr>
+            </thead>
+            <tbody id="tblStatusBody"></tbody>
+          </table>
+        </div>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
+          <small class="text-muted" id="infoUserStatus"></small>
+          <ul class="pagination pagination-sm mb-0" id="pagUserStatus"></ul>
+        </div>
+      </div>
+
+      <!-- USER TAB 3: LIST BERITA SAYA -->
+      <div id="riwayatTab" class="tab-content-user d-none card card-editorial p-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-collection-play text-warning me-2"></i>Arsip Publikasi Saya</h5>
+        
+        <div class="table-toolbar">
+          <div class="row g-2 align-items-center">
+            <div class="col-md-5">
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" id="searchUserRiwayat" class="form-control" placeholder="Cari judul atau isi berita..." oninput="updateUserRiwayatTable()">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <select id="filterUserRiwayatKat" class="form-select form-select-sm" onchange="updateUserRiwayatTable()">
+                <option value="ALL">-- Semua Kategori --</option>
+                <option value="Kegiatan">Liputan Kegiatan</option>
+                <option value="Pengumuman">Pengumuman Resmi</option>
+                <option value="Prestasi">Prestasi Organisasi</option>
+                <option value="Opini">Artikel Opini</option>
+              </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-center justify-content-md-end gap-2">
+              <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
+              <select id="limitUserRiwayat" class="form-select form-select-sm w-auto" onchange="updateUserRiwayatTable(true)">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr><th>No</th><th>Tanggal Kirim</th><th>Judul Berita</th><th>Kategori</th><th>Aksi</th></tr>
+            </thead>
+            <tbody id="tblRiwayatBody"></tbody>
+          </table>
+        </div>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
+          <small class="text-muted" id="infoUserRiwayat"></small>
+          <ul class="pagination pagination-sm mb-0" id="pagUserRiwayat"></ul>
+        </div>
+      </div>
+
+      <!-- USER TAB 4: EDIT PROFIL -->
+      <div id="profilTab" class="tab-content-user d-none card card-editorial p-4" style="max-width:550px;">
+        <h5 class="fw-bold mb-3"><i class="bi bi-person-lines-fill text-warning me-2"></i>Pengaturan Biodata Redaksi</h5>
+        <div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Nama Lengkap</label>
+            <input type="text" id="profNama" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Divisi / Jabatan</label>
+            <input type="text" id="profDivisi" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Ganti Kata Sandi (Kosongkan jika tidak diubah)</label>
+            <input type="password" id="profNewPass" class="form-control" placeholder="••••••••">
+          </div>
+          <button type="button" onclick="handleUpdateProfile()" class="btn btn-dark fw-semibold px-4">Simpan Perubahan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- === DASHBOARD ADMIN === -->
+    <div id="adminDashboard" class="d-none">
+      <ul class="nav nav-pills mb-4 gap-2" id="adminTabs">
+        <li class="nav-item"><a class="nav-link active" href="javascript:void(0)" onclick="switchAdminTab(event, 'dashTab')"><i class="bi bi-speedometer2 me-1"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab(event, 'modTab')"><i class="bi bi-shield-check me-1"></i> Antrean Moderasi</a></li>
+        <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab(event, 'allNewsTab')"><i class="bi bi-newspaper me-1"></i> Seluruh Berita</a></li>
+        <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab(event, 'usersTab')"><i class="bi bi-people me-1"></i> Kelola Jurnalis</a></li>
+        <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab(event, 'contactTab')"><i class="bi bi-whatsapp me-1"></i> Narahubung Admin</a></li>
+      </ul>
+
+      <!-- ADMIN TAB 0: DASHBOARD STATS -->
+      <div id="dashTab" class="tab-content-admin">
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-md-3">
+            <div class="card stat-card shadow-sm p-3 bg-white border-start border-4 border-dark">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <small class="text-muted fw-bold">TOTAL BERITA</small>
+                  <h2 class="fw-bold text-dark my-1" id="statTotal">0</h2>
+                  <small class="text-muted">Semua Naskah</small>
+                </div>
+                <div class="stat-icon bg-dark text-white shadow-sm"><i class="bi bi-journal-text"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card stat-card shadow-sm p-3 bg-white border-start border-4 border-success">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <small class="text-success fw-bold">DISETUJUI</small>
+                  <h2 class="fw-bold text-success my-1" id="statApproved">0</h2>
+                  <small class="text-muted">Terpublikasi</small>
+                </div>
+                <div class="stat-icon bg-success-subtle text-success shadow-sm"><i class="bi bi-check-circle-fill"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card stat-card shadow-sm p-3 bg-white border-start border-4 border-warning">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <small class="text-warning fw-bold">MENUNGGU</small>
+                  <h2 class="fw-bold text-warning my-1" id="statPending">0</h2>
+                  <small class="text-muted">Antrean Moderasi</small>
+                </div>
+                <div class="stat-icon bg-warning-subtle text-warning shadow-sm"><i class="bi bi-hourglass-split"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card stat-card shadow-sm p-3 bg-white border-start border-4 border-danger">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <small class="text-danger fw-bold">DITOLAK</small>
+                  <h2 class="fw-bold text-danger my-1" id="statRejected">0</h2>
+                  <small class="text-muted">Perlu Perbaikan</small>
+                </div>
+                <div class="stat-icon bg-danger-subtle text-danger shadow-sm"><i class="bi bi-x-circle-fill"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-editorial p-4">
+          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-clock-history me-2 text-warning"></i>Aktivitas Terbaru Berita</h5>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr><th>Penulis</th><th>Judul Naskah</th><th>Tanggal</th><th>Status</th></tr>
+              </thead>
+              <tbody id="tblRecentBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN TAB 1: MODERASI -->
+      <div id="modTab" class="tab-content-admin d-none card card-editorial p-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-shield-shaded text-warning me-2"></i>Antrean Moderasi Redaksi</h5>
+        
+        <div class="table-toolbar">
+          <div class="row g-2 align-items-center">
+            <div class="col-md-5">
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" id="searchAdminMod" class="form-control" placeholder="Cari penulis, judul, atau naskah..." oninput="updateAdminModTable()">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <select id="filterAdminModKat" class="form-select form-select-sm" onchange="updateAdminModTable()">
+                <option value="ALL">-- Semua Kategori --</option>
+                <option value="Kegiatan">Liputan Kegiatan</option>
+                <option value="Pengumuman">Pengumuman Resmi</option>
+                <option value="Prestasi">Prestasi Organisasi</option>
+                <option value="Opini">Artikel Opini</option>
+              </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-center justify-content-md-end gap-2">
+              <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
+              <select id="limitAdminMod" class="form-select form-select-sm w-auto" onchange="updateAdminModTable(true)">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr><th>Penulis</th><th>Tanggal</th><th>Judul Naskah</th><th>Kategori</th><th>Aksi Redaksi</th></tr>
+            </thead>
+            <tbody id="tblModBody"></tbody>
+          </table>
+        </div>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
+          <small class="text-muted" id="infoAdminMod"></small>
+          <ul class="pagination pagination-sm mb-0" id="pagAdminMod"></ul>
+        </div>
+      </div>
+
+      <!-- ADMIN TAB 2: SEMUA BERITA -->
+      <div id="allNewsTab" class="tab-content-admin d-none card card-editorial p-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-collection text-primary me-2"></i>Arsip Seluruh Berita Portal</h5>
+        
+        <div class="table-toolbar">
+          <div class="row g-2 align-items-center">
+            <div class="col-md-4">
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" id="searchAdminAllNews" class="form-control" placeholder="Cari penulis, judul, isi..." oninput="updateAdminAllNewsTable()">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <select id="filterAdminAllStatus" class="form-select form-select-sm" onchange="updateAdminAllNewsTable()">
+                <option value="ALL">-- Semua Status --</option>
+                <option value="Disetujui">Disetujui</option>
+                <option value="Menunggu">Menunggu</option>
+                <option value="Ditolak">Ditolak</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select id="filterAdminAllKat" class="form-select form-select-sm" onchange="updateAdminAllNewsTable()">
+                <option value="ALL">-- Semua Kategori --</option>
+                <option value="Kegiatan">Liputan Kegiatan</option>
+                <option value="Pengumuman">Pengumuman Resmi</option>
+                <option value="Prestasi">Prestasi Organisasi</option>
+                <option value="Opini">Artikel Opini</option>
+              </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-center justify-content-md-end gap-2">
+              <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
+              <select id="limitAdminAllNews" class="form-select form-select-sm w-auto" onchange="updateAdminAllNewsTable(true)">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr><th>Penulis</th><th>Judul Naskah</th><th>Status Publikasi</th><th>Aksi</th></tr>
+            </thead>
+            <tbody id="tblAllNewsBody"></tbody>
+          </table>
+        </div>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
+          <small class="text-muted" id="infoAdminAllNews"></small>
+          <ul class="pagination pagination-sm mb-0" id="pagAdminAllNews"></ul>
+        </div>
+      </div>
+
+      <!-- ADMIN TAB 3: KELOLA USER -->
+      <div id="usersTab" class="tab-content-admin d-none card card-editorial p-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-people-fill text-primary me-2"></i>Manajemen Jurnalis & Hak Akses</h5>
+        
+        <div class="table-toolbar">
+          <div class="row g-2 align-items-center">
+            <div class="col-md-4">
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" id="searchAdminUsers" class="form-control" placeholder="Cari nama, email, divisi..." oninput="updateAdminUsersTable()">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <select id="filterAdminUserRole" class="form-select form-select-sm" onchange="updateAdminUsersTable()">
+                <option value="ALL">-- Semua Peran (Role) --</option>
+                <option value="User">User / Kontributor</option>
+                <option value="Admin">Admin / Redaksi</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select id="filterAdminUserStatus" class="form-select form-select-sm" onchange="updateAdminUsersTable()">
+                <option value="ALL">-- Semua Keaktifan --</option>
+                <option value="Active">Active (Aktif)</option>
+                <option value="Blocked">Blocked (Diblokir)</option>
+              </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-center justify-content-md-end gap-2">
+              <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
+              <select id="limitAdminUsers" class="form-select form-select-sm w-auto" onchange="updateAdminUsersTable(true)">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr><th>Nama</th><th>Email</th><th>Divisi</th><th>Peran</th><th>Status</th><th>Aksi</th></tr>
+            </thead>
+            <tbody id="tblUsersBody"></tbody>
+          </table>
+        </div>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
+          <small class="text-muted" id="infoAdminUsers"></small>
+          <ul class="pagination pagination-sm mb-0" id="pagAdminUsers"></ul>
+        </div>
+      </div>
+
+      <!-- ADMIN TAB 4: NARAHUBUNG ADMIN -->
+      <div id="contactTab" class="tab-content-admin d-none card card-editorial p-4" style="max-width: 550px;">
+        <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-whatsapp text-success me-2"></i>Pengaturan Narahubung WhatsApp</h5>
+        <p class="text-muted small mb-4">Masukkan nomor WhatsApp aktif Redaksi/Admin untuk konfirmasi naskah.</p>
+        <div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Nomor WhatsApp Admin</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light fw-bold"><i class="bi bi-telephone-fill me-1"></i> +</span>
+              <input type="text" id="inputAdminPhone" class="form-control" placeholder="6281234567890" required>
+            </div>
+            <div class="form-text">Format internasional diawali 62 (contoh: 6281234567890).</div>
+          </div>
+          <button type="button" id="btnSaveContact" onclick="handleSaveContact()" class="btn btn-dark fw-semibold px-4">
+            <i class="bi bi-floppy me-1"></i> Simpan Narahubung
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <div id="waFloatingWidget" class="d-none">
+    <div class="float-wa-tooltip">
+      <i class="bi bi-chat-dots-fill text-success"></i> Konfirmasi Redaksi
+    </div>
+    <a href="javascript:void(0)" onclick="sendWAConfirmation()" class="float-wa" title="Konfirmasi via WhatsApp">
+      <i class="bi bi-whatsapp"></i>
+    </a>
+  </div>
+
+  <script>
+    // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+    const API_URL = "https://script.google.com/macros/s/AKfycbwp6gqwTkvq84_lzCIM-td6TMew9xDCc2yaYweBxphfWbBJc263dC4DbC9g0HQf580R/exec";
+
+    let currentUser = null;
+    let userNewsCache = [];
+    let adminNewsCache = [];
+    let adminUsersCache = [];
+    let currentAdminPhone = "6281234567890";
+
+    const pageState = {
+      userStatus: 1,
+      userRiwayat: 1,
+      adminMod: 1,
+      adminAllNews: 1,
+      adminUsers: 1
+    };
+
+    // HELPER CALL REST API
+    async function callApi(action, payload = {}) {
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ action, ...payload })
+        });
+        return await response.json();
+      } catch (err) {
+        throw new Error("Gagal terhubung ke server backend: " + err.message);
+      }
+    }
+
+    function getBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    window.onload = function() {
+      const savedUser = localStorage.getItem('portalUser');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        initPortal();
+      }
+    };
+
+    function switchAuth(type) {
+      if (type === 'register') {
+        document.getElementById('loginBox').classList.add('d-none');
+        document.getElementById('registerBox').classList.remove('d-none');
+      } else {
+        document.getElementById('registerBox').classList.add('d-none');
+        document.getElementById('loginBox').classList.remove('d-none');
+      }
+    }
+
+    async function handleLogin() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      if (!email || !password) {
+        Swal.fire('Peringatan', 'Harap isi email dan password!', 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('btnLogin');
+      btn.disabled = true; 
+      btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Memverifikasi...`;
+
+      try {
+        const res = await callApi("login", { email, password });
+        btn.disabled = false; 
+        btn.innerHTML = `<i class="bi bi-sign-in-out me-1"></i> Masuk Sekarang`;
+
+        if (res.success) {
+          currentUser = res.user;
+          localStorage.setItem('portalUser', JSON.stringify(currentUser));
+          
+          Swal.fire({
+            icon: 'success',
+            title: 'Berhasil Masuk!',
+            text: `Selamat datang kembali, ${currentUser.nama}!`,
+            showConfirmButton: false,
+            timer: 1600,
+            iconColor: '#10b981'
+          }).then(() => {
+            initPortal();
+          });
+        } else {
+          Swal.fire('Gagal Masuk', res.message, 'error');
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="bi bi-sign-in-out me-1"></i> Masuk Sekarang`;
+        Swal.fire('Terjadi Kesalahan', err.message, 'error');
+      }
+    }
+
+    async function handleRegister() {
+      const nama = document.getElementById('regNama').value.trim();
+      const divisi = document.getElementById('regDivisi').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value.trim();
+
+      if (!nama || !divisi || !email || !password) {
+        Swal.fire('Peringatan', 'Harap lengkapi semua kolom pendaftaran!', 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('btnRegister');
+      btn.disabled = true; 
+      btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Mendaftarkan...`;
+
+      try {
+        const res = await callApi("register", { data: { nama, divisi, email, password } });
+        btn.disabled = false; 
+        btn.innerHTML = `<i class="bi bi-check-circle me-1"></i> Registrasi Akun`;
+
+        if (res.success) {
+          Swal.fire('Pendaftaran Berhasil!', res.message, 'success');
+          switchAuth('login');
+        } else {
+          Swal.fire('Gagal Pendaftaran', res.message, 'error');
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="bi bi-check-circle me-1"></i> Registrasi Akun`;
+        Swal.fire('Error System', err.message, 'error');
+      }
+    }
+
+    function logout() {
+      Swal.fire({
+        title: 'Konfirmasi Keluar',
+        text: 'Apakah Anda yakin ingin keluar?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#0f172a',
+        cancelButtonColor: '#94a3b8',
+        confirmButtonText: 'Ya, Keluar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.clear();
+          currentUser = null;
+
+          document.getElementById('appNavbar').classList.add('d-none');
+          document.getElementById('userDashboard').classList.add('d-none');
+          document.getElementById('adminDashboard').classList.add('d-none');
+          document.getElementById('waFloatingWidget').classList.add('d-none');
+
+          document.getElementById('authSection').classList.remove('d-none');
+          switchAuth('login');
+        }
+      });
+    }
+
+    function initPortal() {
+      document.getElementById('authSection').classList.add('d-none');
+      document.getElementById('appNavbar').classList.remove('d-none');
+      document.getElementById('navUserInfo').innerText = `Redaksi: ${currentUser.nama} (${currentUser.role})`;
+      document.getElementById('waFloatingWidget').classList.remove('d-none');
+
+      if (currentUser.role === 'Admin') {
+        document.getElementById('adminDashboard').classList.remove('d-none');
+        document.getElementById('userDashboard').classList.add('d-none');
+        loadAdminData();
+      } else {
+        document.getElementById('userDashboard').classList.remove('d-none');
+        document.getElementById('adminDashboard').classList.add('d-none');
+        document.getElementById('formUserId').value = currentUser.userId;
+        document.getElementById('formPenulis').value = `${currentUser.nama} (${currentUser.divisi})`;
+        document.getElementById('profNama').value = currentUser.nama;
+        document.getElementById('profDivisi').value = currentUser.divisi;
+        loadUserData();
+      }
+    }
+
+    function sendWAConfirmation() {
+      const namaPenulis = currentUser ? currentUser.nama : 'Kontributor';
+      const textMsg = "Assalamu'alaikum Warahmatullahi Wabarakatuh.\n\n" +
+        "Yth. Tim Redaksi & Admin Portal Berita,\n" +
+        "Saya *" + namaPenulis + "* ingin mengonfirmasi bahwa saya baru saja mengirimkan/mengunggah naskah berita di Portal Redaksi.\n\n" +
+        "Mohon bantuan Bapak/Ibu Dewan Redaksi untuk meninjau dan memproses naskah tersebut. Terima kasih banyak.\n\n" +
+        "Jazakumullah Khairan Katsiran,\n" +
+        "Wassalamu'alaikum Warahmatullahi Wabarakatuh.";
+      
+      window.open("https://wa.me/" + currentAdminPhone + "?text=" + encodeURIComponent(textMsg), '_blank');
+    }
+
+    async function loadUserData() {
+      try {
+        const res = await callApi("getUserNewsData", { userId: currentUser.userId });
+        if (!res) return;
+        userNewsCache = res.news || [];
+        if (res.adminPhone) currentAdminPhone = res.adminPhone;
+        updateUserStatusTable(true);
+        updateUserRiwayatTable(true);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function processDataPipeline(dataList, searchVal, filterRules, pageKey, limitVal) {
+      let filtered = dataList.filter(item => {
+        if (searchVal) {
+          const s = searchVal.toLowerCase();
+          const matchSearch = Object.values(item).some(val => String(val).toLowerCase().includes(s));
+          if (!matchSearch) return false;
+        }
+        for (let key in filterRules) {
+          if (filterRules[key] !== 'ALL' && item[key] !== filterRules[key]) {
+            return false;
+          }
+        }
+        return true;
+      });
+
+      const total = filtered.length;
+      const limit = parseInt(limitVal, 10) || 10;
+      const totalPages = Math.ceil(total / limit) || 1;
+
+      if (pageState[pageKey] > totalPages) pageState[pageKey] = totalPages;
+      if (pageState[pageKey] < 1) pageState[pageKey] = 1;
+
+      const currentPage = pageState[pageKey];
+      const start = (currentPage - 1) * limit;
+      const end = start + limit;
+      const pagedItems = filtered.slice(start, end);
+
+      return {
+        items: pagedItems,
+        total: total,
+        startItem: total > 0 ? start + 1 : 0,
+        endItem: Math.min(end, total),
+        currentPage: currentPage,
+        totalPages: totalPages
+      };
+    }
+
+    function renderPaginationUI(elementId, result, pageKey, updateFnName) {
+      const pagEl = document.getElementById(elementId);
+      if (!pagEl) return;
+
+      let html = '';
+      const prevDisabled = result.currentPage === 1 ? 'disabled' : '';
+      const nextDisabled = result.currentPage === result.totalPages ? 'disabled' : '';
+
+      html += `<li class="page-item ${prevDisabled}"><a class="page-link" href="javascript:void(0)" onclick="changePage('${pageKey}', ${result.currentPage - 1}, ${updateFnName})">&laquo;</a></li>`;
+      
+      for (let i = 1; i <= result.totalPages; i++) {
+        if (i === 1 || i === result.totalPages || (i >= result.currentPage - 1 && i <= result.currentPage + 1)) {
+          const active = i === result.currentPage ? 'active' : '';
+          html += `<li class="page-item ${active}"><a class="page-link" href="javascript:void(0)" onclick="changePage('${pageKey}', ${i}, ${updateFnName})">${i}</a></li>`;
+        } else if (i === result.currentPage - 2 || i === result.currentPage + 2) {
+          html += `<li class="page-item disabled"><a class="page-link" href="javascript:void(0)">...</a></li>`;
+        }
+      }
+
+      html += `<li class="page-item ${nextDisabled}"><a class="page-link" href="javascript:void(0)" onclick="changePage('${pageKey}', ${result.currentPage + 1}, ${updateFnName})">&raquo;</a></li>`;
+      pagEl.innerHTML = html;
+    }
+
+    function changePage(pageKey, newPage, updateFn) {
+      pageState[pageKey] = newPage;
+      updateFn();
+    }
+
+    function updateUserStatusTable(resetPage = false) {
+      if (resetPage) pageState.userStatus = 1;
+      const search = document.getElementById('searchUserStatus').value.trim();
+      const filterStatus = document.getElementById('filterUserStatus').value;
+      const limit = document.getElementById('limitUserStatus').value;
+
+      const res = processDataPipeline(userNewsCache, search, { status: filterStatus }, 'userStatus', limit);
+
+      let html = '';
+      res.items.forEach((item, index) => {
+        let badge = item.status === 'Disetujui' ? 'badge-disetujui' : (item.status === 'Ditolak' ? 'badge-ditolak' : 'badge-menunggu');
+        html += `<tr>
+          <td>${res.startItem + index}</td>
+          <td>${item.tanggalKirim}</td>
+          <td class="fw-semibold">${item.judul}</td>
+          <td><span class="badge ${badge}">${item.status}</span></td>
+          <td>${item.catatanAdmin || '-'}</td>
+        </tr>`;
+      });
+
+      document.getElementById('tblStatusBody').innerHTML = html || '<tr><td colspan="5" class="text-center text-muted py-3">Tidak ada naskah ditemukan.</td></tr>';
+      document.getElementById('infoUserStatus').innerText = `Menampilkan ${res.startItem}-${res.endItem} dari ${res.total} data`;
+      renderPaginationUI('pagUserStatus', res, 'userStatus', 'updateUserStatusTable');
+    }
+
+    function updateUserRiwayatTable(resetPage = false) {
+      if (resetPage) pageState.userRiwayat = 1;
+      const search = document.getElementById('searchUserRiwayat').value.trim();
+      const filterKat = document.getElementById('filterUserRiwayatKat').value;
+      const limit = document.getElementById('limitUserRiwayat').value;
+
+      const res = processDataPipeline(userNewsCache, search, { kategori: filterKat }, 'userRiwayat', limit);
+
+      let html = '';
+      res.items.forEach((item, index) => {
+        html += `<tr>
+          <td>${res.startItem + index}</td>
+          <td>${item.tanggalKirim}</td>
+          <td class="fw-semibold">${item.judul}</td>
+          <td><span class="badge bg-dark">${item.kategori}</span></td>
+          <td><button onclick="previewNews('${item.beritaId}')" class="btn btn-sm btn-outline-dark"><i class="bi bi-eye me-1"></i> Baca</button></td>
+        </tr>`;
+      });
+
+      document.getElementById('tblRiwayatBody').innerHTML = html || '<tr><td colspan="5" class="text-center text-muted py-3">Tidak ada data berita.</td></tr>';
+      document.getElementById('infoUserRiwayat').innerText = `Menampilkan ${res.startItem}-${res.endItem} dari ${res.total} data`;
+      renderPaginationUI('pagUserRiwayat', res, 'userRiwayat', 'updateUserRiwayatTable');
+    }
+
+    async function handleNewsSubmit() {
+      const form = document.getElementById('newsForm');
+      if (!form.judul.value || !form.tanggal.value || !form.isi.value) {
+        Swal.fire('Peringatan', 'Harap isi semua kolom berita yang wajib!', 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmitNews');
+      btn.disabled = true; 
+      btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Mengirimkan...`;
+
+      let gambarBase64 = "", gambarType = "", gambarName = "";
+      const fileInput = document.getElementById('newsGambar').files[0];
+      if (fileInput) {
+        gambarBase64 = await getBase64(fileInput);
+        gambarType = fileInput.type;
+        gambarName = fileInput.name;
+      }
+
+      const payloadData = {
+        userId: form.userId.value,
+        penulis: form.penulis.value,
+        judul: form.judul.value,
+        kategori: form.kategori.value,
+        tanggal: form.tanggal.value,
+        isi: form.isi.value,
+        gambarBase64,
+        gambarType,
+        gambarName
+      };
+
+      try {
+        const res = await callApi("submitNews", { data: payloadData });
+        btn.disabled = false; 
+        btn.innerHTML = `<i class="bi bi-cloud-upload me-1"></i> Kirimkan ke Redaksi`;
+
+        if (res.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Berhasil Terkirim!',
+            text: res.message,
+            confirmButtonText: 'Konfirmasi via WA',
+            showCancelButton: true,
+            cancelButtonText: 'Selesai',
+            confirmButtonColor: '#25D366'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              sendWAConfirmation();
+            }
+          });
+          form.reset();
+          initPortal();
+        } else {
+          Swal.fire('Peringatan', res.message, 'warning');
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="bi bi-cloud-upload me-1"></i> Kirimkan ke Redaksi`;
+        Swal.fire('Gagal Kirim', err.message, 'error');
+      }
+    }
+
+    async function handleUpdateProfile() {
+      const nama = document.getElementById('profNama').value.trim();
+      const divisi = document.getElementById('profDivisi').value.trim();
+      const newPassword = document.getElementById('profNewPass').value.trim();
+
+      try {
+        const res = await callApi("updateProfile", { data: { userId: currentUser.userId, nama, divisi, newPassword } });
+        if (res.success) {
+          currentUser.nama = nama;
+          currentUser.divisi = divisi;
+          localStorage.setItem('portalUser', JSON.stringify(currentUser));
+          Swal.fire('Pembaruan Profil', res.message, 'success');
+          initPortal();
+        } else {
+          Swal.fire('Gagal Ubah Profil', res.message, 'error');
+        }
+      } catch (e) {
+        Swal.fire('Error', e.message, 'error');
+      }
+    }
+
+    function previewNews(beritaId) {
+      const news = userNewsCache.find(n => n.beritaId === beritaId);
+      if (!news) return;
+
+      Swal.fire({
+        title: news.judul,
+        html: `
+          <div class="text-start">
+            <p class="text-muted small mb-2"><i class="bi bi-calendar-event me-1"></i> Tanggal: ${news.tanggalKegiatan} | Kategori: <strong>${news.kategori}</strong></p>
+            ${news.gambar ? `<img src="${news.gambar}" class="img-fluid rounded mb-3 shadow-sm" style="max-height:280px; width:100%; object-fit:cover;">` : ''}
+            <div class="p-3 bg-light rounded text-secondary" style="white-space: pre-line; text-align: justify; line-height: 1.6;">${news.isi}</div>
+          </div>
+        `,
+        width: '650px',
+        confirmButtonText: 'Tutup Artikel',
+        confirmButtonColor: '#0f172a'
+      });
+    }
+
+    function switchUserTab(e, tabId) {
+      if (e && e.preventDefault) e.preventDefault();
+      document.querySelectorAll('#userTabs .nav-link').forEach(el => el.classList.remove('active'));
+      if (e && e.currentTarget) e.currentTarget.classList.add('active');
+      
+      document.querySelectorAll('.tab-content-user').forEach(el => el.classList.add('d-none'));
+      const targetTab = document.getElementById(tabId);
+      if (targetTab) targetTab.classList.remove('d-none');
+    }
+
+    async function loadAdminData() {
+      try {
+        const data = await callApi("getAdminDashboardData");
+        if (!data) return;
+        adminNewsCache = data.news || [];
+        adminUsersCache = data.users || [];
+        
+        if (data.adminPhone) {
+          currentAdminPhone = data.adminPhone;
+          document.getElementById('inputAdminPhone').value = currentAdminPhone;
+        }
+
+        renderAdminStats(adminNewsCache);
+        renderAdminRecentTable(adminNewsCache);
+        
+        updateAdminModTable(true);
+        updateAdminAllNewsTable(true);
+        updateAdminUsersTable(true);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function renderAdminStats(newsList) {
+      document.getElementById('statTotal').innerText = newsList.length;
+      document.getElementById('statApproved').innerText = newsList.filter(n => n.status === 'Disetujui').length;
+      document.getElementById('statPending').innerText = newsList.filter(n => n.status === 'Menunggu').length;
+      document.getElementById('statRejected').innerText = newsList.filter(n => n.status === 'Ditolak').length;
+    }
+
+    function renderAdminRecentTable(newsList) {
+      let html = '';
+      const recent = newsList.slice(0, 5);
+      recent.forEach(item => {
+        let badge = item.status === 'Disetujui' ? 'badge-disetujui' : (item.status === 'Ditolak' ? 'badge-ditolak' : 'badge-menunggu');
+        html += `<tr>
+          <td>${item.namaPenulis}</td>
+          <td class="fw-semibold">${item.judul}</td>
+          <td>${item.tanggalKirim}</td>
+          <td><span class="badge ${badge}">${item.status}</span></td>
+        </tr>`;
+      });
+      document.getElementById('tblRecentBody').innerHTML = html || '<tr><td colspan="4" class="text-center text-muted py-3">Belum ada naskah.</td></tr>';
+    }
+
+    function updateAdminModTable(resetPage = false) {
+      if (resetPage) pageState.adminMod = 1;
+      const search = document.getElementById('searchAdminMod').value.trim();
+      const filterKat = document.getElementById('filterAdminModKat').value;
+      const limit = document.getElementById('limitAdminMod').value;
+
+      const pendingList = adminNewsCache.filter(n => n.status === 'Menunggu');
+      const res = processDataPipeline(pendingList, search, { kategori: filterKat }, 'adminMod', limit);
+
+      let html = '';
+      res.items.forEach(item => {
+        html += `<tr>
+          <td>${item.namaPenulis}</td>
+          <td>${item.tanggalKirim}</td>
+          <td class="fw-semibold">${item.judul}</td>
+          <td><span class="badge bg-secondary">${item.kategori}</span></td>
+          <td>
+            <button onclick="actionModerate('${item.beritaId}', 'Disetujui')" class="btn btn-sm btn-success me-1"><i class="bi bi-check-lg"></i> Setujui</button>
+            <button onclick="actionModerate('${item.beritaId}', 'Ditolak')" class="btn btn-sm btn-danger"><i class="bi bi-x-lg"></i> Tolak</button>
+          </td>
+        </tr>`;
+      });
+
+      document.getElementById('tblModBody').innerHTML = html || '<tr><td colspan="5" class="text-center text-muted py-3">Tidak ada antrean moderasi.</td></tr>';
+      document.getElementById('infoAdminMod').innerText = `Menampilkan ${res.startItem}-${res.endItem} dari ${res.total} data`;
+      renderPaginationUI('pagAdminMod', res, 'adminMod', 'updateAdminModTable');
+    }
+
+    function updateAdminAllNewsTable(resetPage = false) {
+      if (resetPage) pageState.adminAllNews = 1;
+      const search = document.getElementById('searchAdminAllNews').value.trim();
+      const filterStatus = document.getElementById('filterAdminAllStatus').value;
+      const filterKat = document.getElementById('filterAdminAllKat').value;
+      const limit = document.getElementById('limitAdminAllNews').value;
+
+      const res = processDataPipeline(adminNewsCache, search, { status: filterStatus, kategori: filterKat }, 'adminAllNews', limit);
+
+      let html = '';
+      res.items.forEach(item => {
+        let badge = item.status === 'Disetujui' ? 'badge-disetujui' : (item.status === 'Ditolak' ? 'badge-ditolak' : 'badge-menunggu');
+        html += `<tr>
+          <td>${item.namaPenulis}</td>
+          <td class="fw-semibold">${item.judul}</td>
+          <td><span class="badge ${badge}">${item.status}</span></td>
+          <td><button onclick="previewNewsAdmin('${item.beritaId}')" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye me-1"></i> Detail</button></td>
+        </tr>`;
+      });
+
+      document.getElementById('tblAllNewsBody').innerHTML = html || '<tr><td colspan="4" class="text-center text-muted py-3">Tidak ada data berita.</td></tr>';
+      document.getElementById('infoAdminAllNews').innerText = `Menampilkan ${res.startItem}-${res.endItem} dari ${res.total} data`;
+      renderPaginationUI('pagAdminAllNews', res, 'adminAllNews', 'updateAdminAllNewsTable');
+    }
+
+    function updateAdminUsersTable(resetPage = false) {
+      if (resetPage) pageState.adminUsers = 1;
+      const search = document.getElementById('searchAdminUsers').value.trim();
+      const filterRole = document.getElementById('filterAdminUserRole').value;
+      const filterStatus = document.getElementById('filterAdminUserStatus').value;
+      const limit = document.getElementById('limitAdminUsers').value;
+
+      const res = processDataPipeline(adminUsersCache, search, { role: filterRole, status: filterStatus }, 'adminUsers', limit);
+
+      let html = '';
+      res.items.forEach(u => {
+        html += `<tr>
+          <td>${u.nama}</td>
+          <td>${u.email}</td>
+          <td>${u.divisi}</td>
+          <td><span class="badge ${u.role === 'Admin' ? 'bg-primary' : 'bg-secondary'}">${u.role}</span></td>
+          <td><span class="badge ${u.status === 'Active' ? 'bg-success' : 'bg-danger'}">${u.status}</span></td>
+          <td>
+            <button onclick="editUserAccount('${u.userId}', '${u.role}', '${u.status}')" class="btn btn-sm btn-outline-dark"><i class="bi bi-pencil me-1"></i> Kelola</button>
+          </td>
+        </tr>`;
+      });
+
+      document.getElementById('tblUsersBody').innerHTML = html || '<tr><td colspan="6" class="text-center text-muted py-3">Tidak ada data pengguna.</td></tr>';
+      document.getElementById('infoAdminUsers').innerText = `Menampilkan ${res.startItem}-${res.endItem} dari ${res.total} data`;
+      renderPaginationUI('pagAdminUsers', res, 'adminUsers', 'updateAdminUsersTable');
+    }
+
+    async function handleSaveContact() {
+      const phone = document.getElementById('inputAdminPhone').value.trim();
+      if (!phone) {
+        Swal.fire('Peringatan', 'Masukkan nomor WhatsApp!', 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('btnSaveContact');
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...`;
+
+      try {
+        const res = await callApi("saveAdminContact", { phone });
+        btn.disabled = false;
+        btn.innerHTML = `<i class="bi bi-floppy me-1"></i> Simpan Narahubung`;
+        if (res.success) {
+          currentAdminPhone = phone.replace(/[^0-9]/g, '');
+          Swal.fire('Berhasil', res.message, 'success');
+        } else {
+          Swal.fire('Gagal Simpan', res.message, 'error');
+        }
+      } catch (e) {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="bi bi-floppy me-1"></i> Simpan Narahubung`;
+        Swal.fire('Error', e.message, 'error');
+      }
+    }
+
+    function actionModerate(beritaId, status) {
+      Swal.fire({
+        title: `${status} Naskah Berita?`,
+        input: 'text',
+        inputPlaceholder: 'Catatan penyunting/editor (opsional)',
+        showCancelButton: true,
+        confirmButtonText: 'Proses Moderasi',
+        confirmButtonColor: '#0f172a'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const res = await callApi("moderateNews", { beritaId, status, catatan: result.value || '' });
+            Swal.fire('Moderasi Selesai', res.message, 'success');
+            loadAdminData();
+          } catch (e) {
+            Swal.fire('Error', e.message, 'error');
+          }
+        }
+      });
+    }
+
+    function editUserAccount(userId, currentRole, currentStatus) {
+      Swal.fire({
+        title: 'Kelola Hak Akses Jurnalis',
+        html: `
+          <div class="text-start mb-3">
+            <label class="form-label small fw-bold">Peran Akses (Role)</label>
+            <select id="swalRole" class="form-select">
+              <option value="User" ${currentRole === 'User' ? 'selected' : ''}>User / Kontributor</option>
+              <option value="Admin" ${currentRole === 'Admin' ? 'selected' : ''}>Admin / Dewan Redaksi</option>
+            </select>
+          </div>
+          <div class="text-start">
+            <label class="form-label small fw-bold">Status Keaktifan Akun</label>
+            <select id="swalStatus" class="form-select">
+              <option value="Active" ${currentStatus === 'Active' ? 'selected' : ''}>Active (Aktif)</option>
+              <option value="Blocked" ${currentStatus === 'Blocked' ? 'selected' : ''}>Blocked (Diblokir)</option>
+            </select>
+          </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Simpan Perubahan',
+        confirmButtonColor: '#0f172a',
+        preConfirm: () => {
+          return {
+            role: document.getElementById('swalRole').value,
+            status: document.getElementById('swalStatus').value
+          }
+        }
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const res = await callApi("updateUserAccount", { userId, role: result.value.role, status: result.value.status });
+            Swal.fire('Pembaruan Akun', res.message, 'success');
+            loadAdminData();
+          } catch (e) {
+            Swal.fire('Error', e.message, 'error');
+          }
+        }
+      });
+    }
+
+    function previewNewsAdmin(beritaId) {
+      const news = adminNewsCache.find(n => n.beritaId === beritaId);
+      if (!news) return;
+
+      Swal.fire({
+        title: news.judul,
+        html: `
+          <div class="text-start">
+            <p class="text-muted small mb-2"><i class="bi bi-person me-1"></i> Penulis: <strong>${news.namaPenulis}</strong> | Tanggal: ${news.tanggalKegiatan}</p>
+            ${news.gambar ? `<img src="${news.gambar}" class="img-fluid rounded mb-3 shadow-sm" style="max-height:280px; width:100%; object-fit:cover;">` : ''}
+            <div class="p-3 bg-light rounded text-secondary" style="white-space: pre-line; text-align: justify; line-height: 1.6;">${news.isi}</div>
+          </div>
+        `,
+        width: '650px',
+        confirmButtonColor: '#0f172a'
+      });
+    }
+
+    function switchAdminTab(e, tabId) {
+      if (e && e.preventDefault) e.preventDefault();
+      document.querySelectorAll('#adminTabs .nav-link').forEach(el => el.classList.remove('active'));
+      if (e && e.currentTarget) e.currentTarget.classList.add('active');
+
+      document.querySelectorAll('.tab-content-admin').forEach(el => el.classList.add('d-none'));
+      const targetTab = document.getElementById(tabId);
+      if (targetTab) targetTab.classList.remove('d-none');
+    }
+  </script>
+</body>
+</html>

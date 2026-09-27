@@ -698,7 +698,7 @@
   </div>
 
   <script>
-    // URL WEB APP GOOGLE APPS SCRIPT
+    // MASUKKAN URL WEB APP DEPLOYMENT APPS SCRIPT ANDA DI SINI
     const API_URL = "https://script.google.com/macros/s/AKfycbwp6gqwTkvq84_lzCIM-td6TMew9xDCc2yaYweBxphfWbBJc263dC4DbC9g0HQf580R/exec";
 
     let currentUser = null;
@@ -715,7 +715,7 @@
       adminUsers: 1
     };
 
-    // HELPER CALL API
+    // HELPER CALL API REST BACKEND
     async function callApi(action, payload = {}) {
       try {
         const response = await fetch(API_URL, {
@@ -725,12 +725,12 @@
         });
         
         if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
+          throw new Error("HTTP Status: " + response.status);
         }
         
         return await response.json();
       } catch (err) {
-        throw new Error("Gagal terhubung ke server backend: " + err.message);
+        throw new Error("Gagal terhubung ke backend: " + err.message);
       }
     }
 
@@ -788,7 +788,7 @@
             title: 'Berhasil Masuk!',
             text: `Selamat datang kembali, ${currentUser.nama}!`,
             showConfirmButton: false,
-            timer: 1600,
+            timer: 1500,
             iconColor: '#10b981'
           }).then(() => {
             initPortal();
@@ -810,7 +810,7 @@
       const password = document.getElementById('regPassword').value.trim();
 
       if (!nama || !divisi || !email || !password) {
-        Swal.fire('Peringatan', 'Harap lengkapi semua kolom pendaftaran!', 'warning');
+        Swal.fire('Peringatan', 'Harap lengkapi seluruh kolom pendaftaran!', 'warning');
         return;
       }
 
@@ -832,14 +832,14 @@
       } catch (err) {
         btn.disabled = false;
         btn.innerHTML = `<i class="bi bi-check-circle me-1"></i> Registrasi Akun`;
-        Swal.fire('Error System', err.message, 'error');
+        Swal.fire('Error Sistem', err.message, 'error');
       }
     }
 
     function logout() {
       Swal.fire({
         title: 'Konfirmasi Keluar',
-        text: 'Apakah Anda yakin ingin keluar?',
+        text: 'Apakah Anda yakin ingin keluar dari portal redaksi?',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#0f172a',

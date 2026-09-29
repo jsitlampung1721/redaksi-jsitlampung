@@ -97,7 +97,7 @@
       width: 100%;
     }
 
-    /* NEWS CARDS */
+    /* NEWS CARDS & TRUNCATION */
     .news-card {
       border: 1px solid var(--card-border);
       border-radius: 16px;
@@ -129,6 +129,13 @@
     }
     .news-card:hover .news-thumb {
       transform: scale(1.06);
+    }
+
+    .text-truncate-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .badge-category {
@@ -235,7 +242,7 @@
           <button onclick="openCurrentDashboard()" class="btn btn-outline-light btn-sm rounded-pill px-3 me-1 fw-semibold">
             <i class="bi bi-speedometer2 me-1"></i> <span id="lblDashboardName">Dashboard</span>
           </button>
-          <button onclick="logout()" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold">
+          <button onclick="logout()" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold" title="Keluar">
             <i class="bi bi-box-arrow-right"></i>
           </button>
         </div>
@@ -258,7 +265,7 @@
       
       <!-- HERO / HEADLINE NEWS -->
       <div id="heroSection" class="mb-5 d-none">
-        <div class="hero-card" id="heroCard" onclick="">
+        <div class="hero-card" id="heroCard">
           <img id="heroImg" src="" class="hero-bg-img" alt="Headline">
           <div class="hero-overlay">
             <span id="heroCategory" class="badge badge-category mb-2"></span>
@@ -548,7 +555,7 @@
 
   </div>
 
-  <!-- MODAL READ ARTICLE (RESPONSIF & BACA BERITA ELEGANK) -->
+  <!-- MODAL READ ARTICLE (RESPONSIF & BACA BERITA ELEGAN) -->
   <div class="modal fade" id="readArticleModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
       <div class="modal-content border-0 rounded-4 shadow-lg">
@@ -581,7 +588,7 @@
     </div>
   </div>
 
-  <!-- MODAL LOGIN / REGISTER (POJOK KANAN ATAS) -->
+  <!-- MODAL LOGIN / REGISTER -->
   <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 card-editorial">
@@ -653,7 +660,7 @@
     </div>
   </div>
 
-  <!-- FLOATING WHATSAPP BUTTON (UNTUK KONFIRMASI REDAKSI) -->
+  <!-- FLOATING WHATSAPP BUTTON -->
   <div id="waFloatingWidget" class="d-none">
     <a href="javascript:void(0)" onclick="sendWAConfirmation()" class="float-wa" title="Konfirmasi Redaksi via WhatsApp">
       <i class="bi bi-whatsapp"></i>
@@ -678,6 +685,17 @@
 
     let authModalObj = null;
     let readModalObj = null;
+
+    // Helper sanitasi teks untuk keamanan tampilan
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
 
     // CALL API BACKEND HELPER
     async function callApi(action, payload = {}) {
@@ -716,8 +734,12 @@
 
       const savedUser = localStorage.getItem('portalUser');
       if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        updateNavState();
+        try {
+          currentUser = JSON.parse(savedUser);
+          updateNavState();
+        } catch(e) {
+          localStorage.removeItem('portalUser');
+        }
       }
 
       // Selalu muat berita publik sebagai tampilan awal
@@ -788,13 +810,16 @@
         const res = await callApi("getPublicNews");
         document.getElementById('publicLoading').classList.add('d-none');
         
-        if (res.success && res.news) {
+        if (res && res.success && res.news) {
           publicNewsCache = res.news;
           if (res.adminPhone) currentAdminPhone = res.adminPhone;
           renderPublicNewsGrid();
+        } else {
+          document.getElementById('emptyPublicNews').classList.remove('d-none');
         }
       } catch (err) {
         document.getElementById('publicLoading').classList.add('d-none');
+        document.getElementById('emptyPublicNews').classList.remove('d-none');
         console.error(err);
       }
     }
@@ -811,7 +836,10 @@
       
       let filtered = publicNewsCache.filter(item => {
         const matchCat = selectedPublicCategory === 'ALL' || item.kategori === selectedPublicCategory;
-        const matchSearch = !search || item.judul.toLowerCase().includes(search) || item.isi.toLowerCase().includes(search) || item.namaPenulis.toLowerCase().includes(search);
+        const matchSearch = !search || 
+          (item.judul && item.judul.toLowerCase().includes(search)) || 
+          (item.isi && item.isi.toLowerCase().includes(search)) || 
+          (item.namaPenulis && item.namaPenulis.toLowerCase().includes(search));
         return matchCat && matchSearch;
       });
 
@@ -828,11 +856,10 @@
 
       emptyEl.classList.add('d-none');
 
-      // Tampilkan Hero Card jika tidak dalam pencarian dan kategori ALL
       let gridItems = [...filtered];
       if (selectedPublicCategory === 'ALL' && !search && gridItems.length > 0) {
         const headline = gridItems[0];
-        gridItems = gridItems.slice(1); // Item lainnya di grid
+        gridItems = gridItems.slice(1);
 
         heroEl.classList.remove('d-none');
         document.getElementById('heroTitle').innerText = headline.judul;
@@ -849,24 +876,25 @@
       let html = '';
       gridItems.forEach(news => {
         const imgUrl = news.gambar || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80';
-        const excerpt = news.isi.length > 120 ? news.isi.substring(0, 120) + '...' : news.isi;
+        const rawIsi = news.isi || '';
+        const excerpt = rawIsi.length > 120 ? rawIsi.substring(0, 120) + '...' : rawIsi;
 
         html += `
           <div class="col-md-6 col-lg-4">
             <div class="news-card" onclick="openReadModal('${news.beritaId}')">
               <div class="news-thumb-wrapper">
-                <img src="${imgUrl}" class="news-thumb" alt="${news.judul}" loading="lazy">
+                <img src="${imgUrl}" class="news-thumb" alt="${escapeHtml(news.judul)}" loading="lazy">
               </div>
               <div class="p-4 d-flex flex-column flex-grow-1">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                  <span class="badge badge-category">${news.kategori}</span>
+                  <span class="badge badge-category">${escapeHtml(news.kategori)}</span>
                   <small class="text-muted"><i class="bi bi-clock me-1"></i>${calculateReadTime(news.isi)}</small>
                 </div>
-                <h5 class="fw-bold text-dark mb-2 article-title text-truncate-2" style="line-height:1.4;">${news.judul}</h5>
-                <p class="text-secondary small mb-4 flex-grow-1" style="line-height:1.6;">${excerpt}</p>
+                <h5 class="fw-bold text-dark mb-2 article-title text-truncate-2" style="line-height:1.4;">${escapeHtml(news.judul)}</h5>
+                <p class="text-secondary small mb-4 flex-grow-1" style="line-height:1.6;">${escapeHtml(excerpt)}</p>
                 <div class="pt-3 border-top d-flex justify-content-between align-items-center text-muted small mt-auto">
-                  <span><i class="bi bi-person me-1"></i>${news.namaPenulis}</span>
-                  <span><i class="bi bi-calendar3 me-1"></i>${news.tanggalKegiatan || news.tanggalKirim}</span>
+                  <span><i class="bi bi-person me-1"></i>${escapeHtml(news.namaPenulis)}</span>
+                  <span><i class="bi bi-calendar3 me-1"></i>${escapeHtml(news.tanggalKegiatan || news.tanggalKirim)}</span>
                 </div>
               </div>
             </div>
@@ -878,7 +906,9 @@
     }
 
     function openReadModal(beritaId) {
-      const news = publicNewsCache.find(n => n.beritaId === beritaId) || userNewsCache.find(n => n.beritaId === beritaId) || adminNewsCache.find(n => n.beritaId === beritaId);
+      const news = publicNewsCache.find(n => String(n.beritaId) === String(beritaId)) || 
+                   userNewsCache.find(n => String(n.beritaId) === String(beritaId)) || 
+                   adminNewsCache.find(n => String(n.beritaId) === String(beritaId));
       if (!news) return;
 
       activeArticleForShare = news;
@@ -1023,10 +1053,10 @@
         let badge = item.status === 'Disetujui' ? 'badge-disetujui' : (item.status === 'Ditolak' ? 'badge-ditolak' : 'badge-menunggu');
         html += `<tr>
           <td>${index + 1}</td>
-          <td>${item.tanggalKirim}</td>
-          <td class="fw-semibold">${item.judul}</td>
-          <td><span class="badge ${badge}">${item.status}</span></td>
-          <td>${item.catatanAdmin || '-'}</td>
+          <td>${escapeHtml(item.tanggalKirim)}</td>
+          <td class="fw-semibold">${escapeHtml(item.judul)}</td>
+          <td><span class="badge ${badge}">${escapeHtml(item.status)}</span></td>
+          <td>${escapeHtml(item.catatanAdmin || '-')}</td>
         </tr>`;
       });
       document.getElementById('tblStatusBody').innerHTML = html || '<tr><td colspan="5" class="text-center text-muted py-3">Belum ada pengajuan berita.</td></tr>';
@@ -1037,9 +1067,9 @@
       userNewsCache.forEach((item, index) => {
         html += `<tr>
           <td>${index + 1}</td>
-          <td>${item.tanggalKirim}</td>
-          <td class="fw-semibold">${item.judul}</td>
-          <td><span class="badge bg-dark">${item.kategori}</span></td>
+          <td>${escapeHtml(item.tanggalKirim)}</td>
+          <td class="fw-semibold">${escapeHtml(item.judul)}</td>
+          <td><span class="badge bg-dark">${escapeHtml(item.kategori)}</span></td>
           <td><button onclick="openReadModal('${item.beritaId}')" class="btn btn-sm btn-outline-dark"><i class="bi bi-eye me-1"></i> Baca</button></td>
         </tr>`;
       });
@@ -1171,10 +1201,10 @@
       newsList.slice(0, 5).forEach(item => {
         let badge = item.status === 'Disetujui' ? 'badge-disetujui' : (item.status === 'Ditolak' ? 'badge-ditolak' : 'badge-menunggu');
         html += `<tr>
-          <td>${item.namaPenulis}</td>
-          <td class="fw-semibold">${item.judul}</td>
-          <td>${item.tanggalKirim}</td>
-          <td><span class="badge ${badge}">${item.status}</span></td>
+          <td>${escapeHtml(item.namaPenulis)}</td>
+          <td class="fw-semibold">${escapeHtml(item.judul)}</td>
+          <td>${escapeHtml(item.tanggalKirim)}</td>
+          <td><span class="badge ${badge}">${escapeHtml(item.status)}</span></td>
         </tr>`;
       });
       document.getElementById('tblRecentBody').innerHTML = html || '<tr><td colspan="4" class="text-center text-muted py-3">Belum ada naskah.</td></tr>';
@@ -1185,10 +1215,10 @@
       let html = '';
       pendingList.forEach(item => {
         html += `<tr>
-          <td>${item.namaPenulis}</td>
-          <td>${item.tanggalKirim}</td>
-          <td class="fw-semibold">${item.judul}</td>
-          <td><span class="badge bg-secondary">${item.kategori}</span></td>
+          <td>${escapeHtml(item.namaPenulis)}</td>
+          <td>${escapeHtml(item.tanggalKirim)}</td>
+          <td class="fw-semibold">${escapeHtml(item.judul)}</td>
+          <td><span class="badge bg-secondary">${escapeHtml(item.kategori)}</span></td>
           <td>
             <button onclick="actionModerate('${item.beritaId}', 'Disetujui')" class="btn btn-sm btn-success me-1"><i class="bi bi-check-lg"></i> Setujui</button>
             <button onclick="actionModerate('${item.beritaId}', 'Ditolak')" class="btn btn-sm btn-danger"><i class="bi bi-x-lg"></i> Tolak</button>
@@ -1203,9 +1233,9 @@
       adminNewsCache.forEach(item => {
         let badge = item.status === 'Disetujui' ? 'badge-disetujui' : (item.status === 'Ditolak' ? 'badge-ditolak' : 'badge-menunggu');
         html += `<tr>
-          <td>${item.namaPenulis}</td>
-          <td class="fw-semibold">${item.judul}</td>
-          <td><span class="badge ${badge}">${item.status}</span></td>
+          <td>${escapeHtml(item.namaPenulis)}</td>
+          <td class="fw-semibold">${escapeHtml(item.judul)}</td>
+          <td><span class="badge ${badge}">${escapeHtml(item.status)}</span></td>
           <td><button onclick="openReadModal('${item.beritaId}')" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye me-1"></i> Baca</button></td>
         </tr>`;
       });
@@ -1216,11 +1246,11 @@
       let html = '';
       adminUsersCache.forEach(u => {
         html += `<tr>
-          <td>${u.nama}</td>
-          <td>${u.email}</td>
-          <td>${u.divisi}</td>
-          <td><span class="badge ${u.role === 'Admin' ? 'bg-primary' : 'bg-secondary'}">${u.role}</span></td>
-          <td><span class="badge ${u.status === 'Active' ? 'bg-success' : 'bg-danger'}">${u.status}</span></td>
+          <td>${escapeHtml(u.nama)}</td>
+          <td>${escapeHtml(u.email)}</td>
+          <td>${escapeHtml(u.divisi)}</td>
+          <td><span class="badge ${u.role === 'Admin' ? 'bg-primary' : 'bg-secondary'}">${escapeHtml(u.role)}</span></td>
+          <td><span class="badge ${u.status === 'Active' ? 'bg-success' : 'bg-danger'}">${escapeHtml(u.status)}</span></td>
           <td>
             <button onclick="editUserAccount('${u.userId}', '${u.role}', '${u.status}')" class="btn btn-sm btn-outline-dark"><i class="bi bi-pencil me-1"></i> Kelola</button>
           </td>

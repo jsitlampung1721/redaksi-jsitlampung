@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal Berita & Pers Organisasi - JSIT Lampung</title>
   
+  <!-- SEO & Open Graph Meta Tags -->
+  <meta name="description" content="Portal Berita & Publikasi Resmi JSIT Lampung - Menyuarakan Kebenaran, Mengabarkan Fakta & Opini Terpercaya.">
+  <meta name="keywords" content="JSIT Lampung, Berita JSIT, Sekolah Islam Terpadu, Pendidikan Lampung, Opini JSIT">
+  <meta property="og:title" content="Portal Berita & Pers Organisasi - JSIT Lampung">
+  <meta property="og:description" content="Menyuarakan Kebenaran, Mengabarkan Fakta & Opini Terpercaya JSIT Lampung.">
+  <meta property="og:image" content="https://lh3.googleusercontent.com/d/10-g6lWxfWwqBso3Wfh9RHMA5eyaV5YYY">
+  
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/10-g6lWxfWwqBso3Wfh9RHMA5eyaV5YYY">
 
@@ -17,6 +24,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
@@ -56,8 +64,13 @@
     body {
       background-color: var(--bg-editorial);
       color: var(--text-main);
-      padding-bottom: 50px;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-content-wrapper {
+      flex: 1;
     }
 
     h1, h2, h3, h4, h5, .brand-title {
@@ -132,6 +145,7 @@
       font-weight: bold;
       font-size: 1.2rem;
       color: #fff;
+      cursor: pointer;
     }
 
     .brand i {
@@ -140,7 +154,7 @@
 
     .nav-menu {
       display: flex;
-      gap: 20px;
+      gap: 15px;
       list-style: none;
       margin-bottom: 0;
       padding-left: 0;
@@ -154,17 +168,18 @@
       padding: 6px 12px;
       border-radius: 6px;
       transition: all 0.2s;
+      cursor: pointer;
     }
 
     .nav-menu a:hover, .nav-menu a.active {
       color: #ffffff;
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba(255, 255, 255, 0.15);
     }
 
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     /* SEARCH BOX */
@@ -194,7 +209,7 @@
       opacity: 1;
     }
 
-    .search-btn, .icon-login-btn, .theme-toggle-btn {
+    .search-btn, .icon-login-btn, .theme-toggle-btn, .mobile-toggle-btn {
       background-color: var(--truth-gold);
       border: none;
       width: 38px;
@@ -218,13 +233,13 @@
       height: 32px;
     }
 
-    .theme-toggle-btn {
+    .theme-toggle-btn, .mobile-toggle-btn {
       background-color: rgba(255, 255, 255, 0.15);
       color: #ffffff;
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .theme-toggle-btn:hover {
+    .theme-toggle-btn:hover, .mobile-toggle-btn:hover {
       background-color: rgba(255, 255, 255, 0.3);
       transform: scale(1.05);
     }
@@ -314,6 +329,7 @@
       transition: opacity 0.8s ease-in-out;
       display: flex;
       align-items: flex-end;
+      cursor: pointer;
     }
 
     .slide.active {
@@ -412,7 +428,7 @@
     /* GRID BERITA UTAMA */
     .main-portal {
       max-width: 1200px;
-      margin: 0 auto;
+      margin: 0 auto 40px auto;
       padding: 0 15px;
     }
 
@@ -438,6 +454,7 @@
       border: 1px solid var(--border-color);
       transition: transform 0.3s, box-shadow 0.3s;
       box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      cursor: pointer;
     }
 
     .news-card:hover {
@@ -610,620 +627,673 @@
       margin: 0 auto;
       padding: 20px 15px;
     }
+
+    /* FOOTER PUBLIK */
+    .public-footer {
+      background-color: var(--header-bg);
+      color: #cbd5e1;
+      padding: 40px 24px 20px 24px;
+      border-top: 3px solid var(--truth-gold);
+      margin-top: auto;
+    }
+
+    .public-footer h5 {
+      color: #ffffff;
+      margin-bottom: 16px;
+      font-size: 1.1rem;
+    }
+
+    .public-footer a {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .public-footer a:hover {
+      color: var(--truth-gold);
+    }
   </style>
 </head>
 <body>
 
-  <!-- ================= TOP BAR ATAS ================= -->
-  <div class="top-bar">
-    <div class="top-left">
-      <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer">
-        <i class="fa-solid fa-location-dot"></i> Sekretariat
-      </a>
-      <a href="mailto:sekretariat@jsit.or.id">
-        <i class="fa-solid fa-envelope"></i> Email
-      </a>
-      <div class="clock-item">
-        <i class="fa-solid fa-clock"></i>
-        <span id="digital-clock">Memuat jam...</span>
-      </div>
-    </div>
-    
-    <div class="top-right social-icons">
-      <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-      <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-      <a href="https://tiktok.com" target="_blank" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-      <a href="https://threads.net" target="_blank" aria-label="Threads"><i class="fa-brands fa-threads"></i></a>
-    </div>
-  </div>
-
-  <!-- ================= HEADER NAVBAR PUBLIC (DARK BLUE) ================= -->
-  <header class="navbar-public">
-    <div class="brand">
-      <i class="fa-solid fa-feather-pointed"></i>
-      <span>JSIT Lampung - Redaksi</span>
-    </div>
-
-    <nav class="d-none d-md-block">
-      <ul class="nav-menu">
-        <li><a href="javascript:void(0)" onclick="showPublicPortal()" class="active">Home</a></li>
-        <li><a href="javascript:void(0)" onclick="showPublicPortal()">Berita</a></li>
-        <li><a href="javascript:void(0)" onclick="showPublicPortal()">Nasional</a></li>
-        <li><a href="javascript:void(0)" onclick="showPublicPortal()">Wilayah</a></li>
-        <li><a href="javascript:void(0)" onclick="showPublicPortal()">Daerah</a></li>
-        <li><a href="javascript:void(0)" onclick="showPublicPortal()">Opini</a></li>
-      </ul>
-    </nav>
-
-    <div class="nav-actions">
-      <div class="search-box" id="searchBox">
-        <input type="text" class="search-input" placeholder="Cari berita..." id="searchInput">
-        <button class="search-btn" id="searchBtn" title="Cari">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-      </div>
-
-      <!-- ICON LOGIN SYSTEM -->
-      <button class="icon-login-btn" id="loginPortalBtn" title="Login / Dashboard Portal" onclick="handleLoginIconClick()">
-        <i class="fa-solid fa-right-to-bracket" id="loginIconSymbol"></i>
-      </button>
-
-      <!-- ICON MODE DARK / LIGHT -->
-      <button id="theme-toggle" class="theme-toggle-btn" title="Ubah Mode Tema">
-        <i id="theme-icon" class="fa-solid fa-moon"></i>
-      </button>
-    </div>
-  </header>
-
-  <!-- ================= TAMPILAN PORTAL BERITA PUBLIC ================= -->
-  <div id="publicPortalView">
-    <!-- TICKER TERKINI -->
-    <div class="ticker-container">
-      <div class="ticker-badge">
-        <i class="fa-solid fa-bolt"></i> TERKINI
-      </div>
-      <div class="ticker-scroll">
-        <div class="ticker-text" id="tickerText">
-          <span>Memuat berita terbaru...</span>
+  <div class="main-content-wrapper">
+    <!-- ================= TOP BAR ATAS ================= -->
+    <div class="top-bar">
+      <div class="top-left">
+        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer">
+          <i class="fa-solid fa-location-dot"></i> Sekretariat
+        </a>
+        <a href="mailto:sekretariat@jsit.or.id">
+          <i class="fa-solid fa-envelope"></i> Email
+        </a>
+        <div class="clock-item">
+          <i class="fa-solid fa-clock"></i>
+          <span id="digital-clock">Memuat jam...</span>
         </div>
+      </div>
+      
+      <div class="top-right social-icons">
+        <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://tiktok.com" target="_blank" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="https://threads.net" target="_blank" aria-label="Threads"><i class="fa-brands fa-threads"></i></a>
       </div>
     </div>
 
-    <!-- HERO SLIDER -->
-    <section class="hero-container">
-      <div class="slide-wrapper" id="slideWrapper"></div>
-
-      <div class="slider-controls">
-        <button class="pause-btn" id="pauseBtn" title="Pause / Play">
-          <i class="fa-solid fa-pause"></i>
-        </button>
-        <div class="pagination-dots" id="dotsContainer"></div>
-      </div>
-    </section>
-
-    <!-- MAIN NEWS GRID -->
-    <main class="main-portal">
-      <div class="section-header">
-        <h2>Berita Terposting</h2>
+    <!-- ================= HEADER NAVBAR PUBLIC (DARK BLUE) ================= -->
+    <header class="navbar-public">
+      <div class="brand" onclick="filterPublicCategory('ALL')">
+        <i class="fa-solid fa-feather-pointed"></i>
+        <span>JSIT Lampung - Redaksi</span>
       </div>
 
-      <div class="news-grid" id="newsGrid">
-        <p class="text-muted">Memuat data berita...</p>
-      </div>
-    </main>
-  </div>
-
-  <!-- ================= TAMPILAN SISTEM LOGIN & DASHBOARD MULTIUSER ================= -->
-  <div id="portalSystemView" class="d-none">
-
-    <!-- SUB NAVBAR DASHBOARD SYSTEM -->
-    <div class="bg-dark border-bottom border-warning py-2 mb-4">
-      <div class="container d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center gap-2 text-white">
-          <i class="bi bi-person-badge text-warning fs-4"></i>
-          <span id="navUserInfo" class="small journal-quote-bar">Status: Tamu Redaksi</span>
-        </div>
-        <div class="d-flex gap-2">
-          <button type="button" onclick="showPublicPortal()" class="btn btn-outline-light btn-sm rounded-pill px-3">
-            <i class="bi bi-globe me-1"></i> Lihat Portal Utama
-          </button>
-          <button type="button" id="btnLogoutSystem" onclick="logout()" class="btn btn-outline-warning btn-sm fw-semibold rounded-pill px-3 d-none">
-            <i class="bi bi-box-arrow-right me-1"></i> Keluar
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="dashboard-container">
-
-      <!-- === AUTH SECTION (LOGIN / REGISTER) === -->
-      <div id="authSection">
-        <div class="text-center my-4">
-          <div class="press-badge-icon mb-2">
-            <i class="bi bi-journal-richtext"></i>
-          </div>
-          <h2 class="fw-bold mb-1">Redaksi JSIT Lampung</h2>
-          <p class="text-muted small">Menyuarakan Kebenaran, Mengabarkan Fakta & Opini Terpercaya</p>
-        </div>
-
-        <!-- FORM LOGIN -->
-        <div id="loginBox" class="card card-editorial auth-card">
-          <div class="card-body p-4 p-md-5">
-            <div class="text-center mb-4">
-              <h4 class="fw-bold mb-1"><i class="bi bi-key-fill text-warning me-2"></i>Masuk Portal</h4>
-              <p class="text-muted small">Silakan masuk dengan kredensial jurnalis/kontributor</p>
-            </div>
-            <div>
-              <div class="mb-3">
-                <label class="form-label small fw-bold">Alamat Email</label>
-                <div class="input-group">
-                  <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
-                  <input type="email" id="loginEmail" class="form-control" placeholder="nama@organisasi.or.id" required>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label small fw-bold">Kata Sandi</label>
-                <div class="input-group">
-                  <span class="input-group-text bg-light"><i class="bi bi-lock"></i></span>
-                  <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
-                </div>
-              </div>
-              <button type="button" id="btnLogin" onclick="handleLogin()" class="btn btn-dark w-100 py-2 fw-semibold shadow-sm mt-2">
-                <i class="bi bi-sign-in-out me-1"></i> Masuk Sekarang
-              </button>
-            </div>
-            <div class="text-center mt-4 pt-2 border-top">
-              <small class="text-muted">Belum terdaftar sebagai kontributor? <a href="javascript:void(0)" onclick="switchAuth('register')" class="fw-bold text-decoration-none text-warning">Daftar Akun</a></small>
-            </div>
-          </div>
-        </div>
-
-        <!-- FORM REGISTER -->
-        <div id="registerBox" class="card card-editorial auth-card d-none">
-          <div class="card-body p-4 p-md-5">
-            <div class="text-center mb-4">
-              <h4 class="fw-bold mb-1"><i class="bi bi-person-plus-fill text-warning me-2"></i>Daftar Kontributor</h4>
-              <p class="text-muted small">Bergabunglah untuk menerbitkan berita dan artikel opini</p>
-            </div>
-            <div>
-              <div class="mb-3">
-                <label class="form-label small fw-bold">Nama Lengkap</label>
-                <input type="text" id="regNama" class="form-control" placeholder="Sesuai nama pena/kartu anggota" required>
-              </div>
-              <div class="mb-3">
-                <label class="form-label small fw-bold">Divisi / Jabatan</label>
-                <input type="text" id="regDivisi" class="form-control" placeholder="Contoh: Redaksi Humas / Anggota" required>
-              </div>
-              <div class="mb-3">
-                <label class="form-label small fw-bold">Email</label>
-                <input type="email" id="regEmail" class="form-control" placeholder="email@organisasi.or.id" required>
-              </div>
-              <div class="mb-3">
-                <label class="form-label small fw-bold">Password</label>
-                <input type="password" id="regPassword" class="form-control" placeholder="Buat kata sandi aman" required>
-              </div>
-              <button type="button" id="btnRegister" onclick="handleRegister()" class="btn btn-dark w-100 py-2 fw-semibold shadow-sm mt-2">
-                <i class="bi bi-check-circle me-1"></i> Registrasi Akun
-              </button>
-            </div>
-            <div class="text-center mt-4 pt-2 border-top">
-              <small class="text-muted">Sudah memiliki akun? <a href="javascript:void(0)" onclick="switchAuth('login')" class="fw-bold text-decoration-none text-warning">Masuk di sini</a></small>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- === DASHBOARD USER / KONTRIBUTOR === -->
-      <div id="userDashboard" class="d-none">
-        <ul class="nav nav-pills mb-4 gap-2" id="userTabs">
-          <li class="nav-item"><a class="nav-link active" href="javascript:void(0)" onclick="switchUserTab(event, 'kirimTab')"><i class="bi bi-pencil-square me-1"></i> Kirim Berita & Opini</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchUserTab(event, 'statusTab')"><i class="bi bi-hourglass-split me-1"></i> Pantau Status Moderasi</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchUserTab(event, 'riwayatTab')"><i class="bi bi-collection-play me-1"></i> Arsip Berita Saya</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchUserTab(event, 'profilTab')"><i class="bi bi-person-gear me-1"></i> Profil Jurnalis</a></li>
+      <nav class="d-none d-md-block">
+        <ul class="nav-menu">
+          <li><a href="javascript:void(0)" onclick="filterPublicCategory('ALL')" class="nav-cat-link active" data-cat="ALL">Home</a></li>
+          <li><a href="javascript:void(0)" onclick="filterPublicCategory('Kegiatan')" class="nav-cat-link" data-cat="Kegiatan">Berita</a></li>
+          <li><a href="javascript:void(0)" onclick="filterPublicCategory('Nasional')" class="nav-cat-link" data-cat="Nasional">Nasional</a></li>
+          <li><a href="javascript:void(0)" onclick="filterPublicCategory('Wilayah')" class="nav-cat-link" data-cat="Wilayah">Wilayah</a></li>
+          <li><a href="javascript:void(0)" onclick="filterPublicCategory('Daerah')" class="nav-cat-link" data-cat="Daerah">Daerah</a></li>
+          <li><a href="javascript:void(0)" onclick="filterPublicCategory('Opini')" class="nav-cat-link" data-cat="Opini">Opini</a></li>
         </ul>
+      </nav>
 
-        <!-- USER TAB 1: FORM KIRIM BERITA -->
-        <div id="kirimTab" class="tab-content-user card card-editorial p-4 p-md-5">
-          <h4 class="fw-bold mb-1"><i class="bi bi-send-fill text-warning me-2"></i>Formulir Tulis & Pengajuan Berita</h4>
-          <p class="text-muted small mb-4">Pastikan naskah tulisan Anda objektif, akurat, dan sesuai kode etik publikasi.</p>
-          
-          <form id="newsForm">
-            <input type="hidden" name="userId" id="formUserId">
-            <input type="hidden" name="penulis" id="formPenulis">
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Judul Berita / Artikel</label>
-              <input type="text" name="judul" class="form-control form-control-lg" placeholder="Tuliskan judul yang lugas dan menarik..." required>
-            </div>
-            <div class="row mb-3">
-              <div class="col-md-6 mb-3 mb-md-0">
-                <label class="form-label fw-semibold">Kategori Publikasi</label>
-                <select name="kategori" class="form-select" required>
-                  <option value="Kegiatan">📰 Liputan Kegiatan</option>
-                  <option value="Pengumuman">📢 Pengumuman Resmi</option>
-                  <option value="Prestasi">🏆 Prestasi Organisasi</option>
-                  <option value="Opini">✍️ Artikel Opini / Gagasan</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label fw-semibold">Tanggal Kegiatan / Peristiwa</label>
-                <input type="date" name="tanggal" class="form-control" required>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Naskah Lengkap Berita</label>
-              <textarea name="isi" class="form-control" rows="7" placeholder="Tuliskan isi liputan berita atau opini secara lengkap di sini..." required></textarea>
-            </div>
-            <div class="mb-4">
-              <label class="form-label fw-semibold">Foto Liputan Utama (Opsional)</label>
-              <input type="file" name="gambar" id="newsGambar" class="form-control" accept="image/*">
-              <div class="form-text">Unggah foto dokumentasi pendukung naskah berita.</div>
-            </div>
-            <button type="button" id="btnSubmitNews" onclick="handleNewsSubmit()" class="btn btn-dark fw-semibold px-4 py-2">
-              <i class="bi bi-cloud-upload me-1"></i> Kirimkan ke Redaksi
+      <div class="nav-actions">
+        <div class="search-box" id="searchBox">
+          <input type="text" class="search-input" placeholder="Cari berita..." id="searchInput" oninput="handlePublicSearch()">
+          <button class="search-btn" id="searchBtn" title="Cari">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+
+        <!-- ICON LOGIN SYSTEM -->
+        <button class="icon-login-btn" id="loginPortalBtn" title="Login / Dashboard Portal" onclick="handleLoginIconClick()">
+          <i class="fa-solid fa-right-to-bracket" id="loginIconSymbol"></i>
+        </button>
+
+        <!-- ICON MODE DARK / LIGHT -->
+        <button id="theme-toggle" class="theme-toggle-btn" title="Ubah Mode Tema">
+          <i id="theme-icon" class="fa-solid fa-moon"></i>
+        </button>
+
+        <!-- MOBILE MENU BUTTON -->
+        <button class="mobile-toggle-btn d-md-none" data-bs-toggle="offcanvas" data-bs-target="#mobileNav" title="Menu Navigasi">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- MOBILE OFFCANVAS NAV -->
+    <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="mobileNav" aria-labelledby="mobileNavLabel">
+      <div class="offcanvas-header border-bottom border-secondary">
+        <h5 class="offcanvas-title fw-bold text-warning" id="mobileNavLabel"><i class="fa-solid fa-feather-pointed me-2"></i>JSIT Lampung</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="nav flex-column gap-2">
+          <li class="nav-item"><a class="nav-link text-white fw-semibold" href="javascript:void(0)" data-bs-dismiss="offcanvas" onclick="filterPublicCategory('ALL')"><i class="bi bi-house-door me-2 text-warning"></i>Home</a></li>
+          <li class="nav-item"><a class="nav-link text-white fw-semibold" href="javascript:void(0)" data-bs-dismiss="offcanvas" onclick="filterPublicCategory('Kegiatan')"><i class="bi bi-newspaper me-2 text-warning"></i>Berita Kegiatan</a></li>
+          <li class="nav-item"><a class="nav-link text-white fw-semibold" href="javascript:void(0)" data-bs-dismiss="offcanvas" onclick="filterPublicCategory('Nasional')"><i class="bi bi-flag me-2 text-warning"></i>Nasional</a></li>
+          <li class="nav-item"><a class="nav-link text-white fw-semibold" href="javascript:void(0)" data-bs-dismiss="offcanvas" onclick="filterPublicCategory('Wilayah')"><i class="bi bi-geo-alt me-2 text-warning"></i>Wilayah</a></li>
+          <li class="nav-item"><a class="nav-link text-white fw-semibold" href="javascript:void(0)" data-bs-dismiss="offcanvas" onclick="filterPublicCategory('Daerah')"><i class="bi bi-pin-map me-2 text-warning"></i>Daerah</a></li>
+          <li class="nav-item"><a class="nav-link text-white fw-semibold" href="javascript:void(0)" data-bs-dismiss="offcanvas" onclick="filterPublicCategory('Opini')"><i class="bi bi-pencil-square me-2 text-warning"></i>Opini / Gagasan</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ================= TAMPILAN PORTAL BERITA PUBLIC ================= -->
+    <div id="publicPortalView">
+      <!-- TICKER TERKINI -->
+      <div class="ticker-container">
+        <div class="ticker-badge">
+          <i class="fa-solid fa-bolt"></i> TERKINI
+        </div>
+        <div class="ticker-scroll">
+          <div class="ticker-text" id="tickerText">
+            <span>Memuat berita terbaru...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- HERO SLIDER -->
+      <section class="hero-container" id="heroSection">
+        <div class="slide-wrapper" id="slideWrapper"></div>
+
+        <div class="slider-controls">
+          <button class="pause-btn" id="pauseBtn" title="Pause / Play">
+            <i class="fa-solid fa-pause"></i>
+          </button>
+          <div class="pagination-dots" id="dotsContainer"></div>
+        </div>
+      </section>
+
+      <!-- MAIN NEWS GRID -->
+      <main class="main-portal">
+        <div class="section-header">
+          <h2 id="publicCategoryTitle">Berita Terposting</h2>
+        </div>
+
+        <div class="news-grid" id="newsGrid">
+          <p class="text-muted">Memuat data berita...</p>
+        </div>
+      </main>
+    </div>
+
+    <!-- ================= TAMPILAN SISTEM LOGIN & DASHBOARD MULTIUSER ================= -->
+    <div id="portalSystemView" class="d-none">
+
+      <!-- SUB NAVBAR DASHBOARD SYSTEM -->
+      <div class="bg-dark border-bottom border-warning py-2 mb-4">
+        <div class="container d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center gap-2 text-white">
+            <i class="bi bi-person-badge text-warning fs-4"></i>
+            <span id="navUserInfo" class="small journal-quote-bar">Status: Tamu Redaksi</span>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" onclick="showPublicPortal()" class="btn btn-outline-light btn-sm rounded-pill px-3">
+              <i class="bi bi-globe me-1"></i> Lihat Portal Utama
             </button>
-          </form>
-        </div>
-
-        <!-- USER TAB 2: PANTAU STATUS -->
-        <div id="statusTab" class="tab-content-user d-none card card-editorial p-4">
-          <h5 class="fw-bold mb-3"><i class="bi bi-clock-history text-warning me-2"></i>Status Peninjauan Redaksi</h5>
-          
-          <div class="table-toolbar">
-            <div class="row g-2 align-items-center">
-              <div class="col-md-5">
-                <div class="input-group input-group-sm">
-                  <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                  <input type="text" id="searchUserStatus" class="form-control" placeholder="Cari judul berita atau catatan..." oninput="updateUserStatusTable()">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <select id="filterUserStatus" class="form-select form-select-sm" onchange="updateUserStatusTable()">
-                  <option value="ALL">-- Semua Status Moderasi --</option>
-                  <option value="Menunggu">Menunggu</option>
-                  <option value="Disetujui">Disetujui</option>
-                  <option value="Ditolak">Ditolak</option>
-                </select>
-              </div>
-              <div class="col-md-3 d-flex align-items-center justify-content-md-end gap-2">
-                <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
-                <select id="limitUserStatus" class="form-select form-select-sm w-auto" onchange="updateUserStatusTable(true)">
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead class="table-light">
-                <tr><th>No</th><th>Tanggal Kirim</th><th>Judul Berita</th><th>Status Moderasi</th><th>Catatan Editor</th></tr>
-              </thead>
-              <tbody id="tblStatusBody"></tbody>
-            </table>
-          </div>
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
-            <small class="text-muted" id="infoUserStatus"></small>
-            <ul class="pagination pagination-sm mb-0" id="pagUserStatus"></ul>
-          </div>
-        </div>
-
-        <!-- USER TAB 3: ARSIP BERITA SAYA -->
-        <div id="riwayatTab" class="tab-content-user d-none card card-editorial p-4">
-          <h5 class="fw-bold mb-3"><i class="bi bi-collection-play text-warning me-2"></i>Arsip Publikasi Saya</h5>
-          
-          <div class="table-toolbar">
-            <div class="row g-2 align-items-center">
-              <div class="col-md-5">
-                <div class="input-group input-group-sm">
-                  <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                  <input type="text" id="searchUserRiwayat" class="form-control" placeholder="Cari judul atau isi berita..." oninput="updateUserRiwayatTable()">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <select id="filterUserRiwayatKat" class="form-select form-select-sm" onchange="updateUserRiwayatTable()">
-                  <option value="ALL">-- Semua Kategori --</option>
-                  <option value="Kegiatan">Liputan Kegiatan</option>
-                  <option value="Pengumuman">Pengumuman Resmi</option>
-                  <option value="Prestasi">Prestasi Organisasi</option>
-                  <option value="Opini">Artikel Opini</option>
-                </select>
-              </div>
-              <div class="col-md-3 d-flex align-items-center justify-content-md-end gap-2">
-                <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
-                <select id="limitUserRiwayat" class="form-select form-select-sm w-auto" onchange="updateUserRiwayatTable(true)">
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead class="table-light">
-                <tr><th>No</th><th>Tanggal Kirim</th><th>Judul Berita</th><th>Kategori</th><th>Aksi</th></tr>
-              </thead>
-              <tbody id="tblRiwayatBody"></tbody>
-            </table>
-          </div>
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
-            <small class="text-muted" id="infoUserRiwayat"></small>
-            <ul class="pagination pagination-sm mb-0" id="pagUserRiwayat"></ul>
-          </div>
-        </div>
-
-        <!-- USER TAB 4: EDIT PROFIL -->
-        <div id="profilTab" class="tab-content-user d-none card card-editorial p-4" style="max-width:550px;">
-          <h5 class="fw-bold mb-3"><i class="bi bi-person-lines-fill text-warning me-2"></i>Pengaturan Biodata Redaksi</h5>
-          <div>
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Nama Lengkap</label>
-              <input type="text" id="profNama" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Divisi / Jabatan</label>
-              <input type="text" id="profDivisi" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Ganti Kata Sandi (Kosongkan jika tidak diubah)</label>
-              <input type="password" id="profNewPass" class="form-control" placeholder="••••••••">
-            </div>
-            <button type="button" onclick="handleUpdateProfile()" class="btn btn-dark fw-semibold px-4">Simpan Perubahan</button>
+            <button type="button" id="btnLogoutSystem" onclick="logout()" class="btn btn-outline-warning btn-sm fw-semibold rounded-pill px-3 d-none">
+              <i class="bi bi-box-arrow-right me-1"></i> Keluar
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- === DASHBOARD ADMIN / DEWAN REDAKSI === -->
-      <div id="adminDashboard" class="d-none">
-        <ul class="nav nav-pills mb-4 gap-2" id="adminTabs">
-          <li class="nav-item"><a class="nav-link active" href="javascript:void(0)" onclick="switchAdminTab(event, 'dashTab')"><i class="bi bi-speedometer2 me-1"></i> Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab(event, 'modTab')"><i class="bi bi-shield-check me-1"></i> Antrean Moderasi</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab(event, 'allNewsTab')"><i class="bi bi-newspaper me-1"></i> Seluruh Berita</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab(event, 'usersTab')"><i class="bi bi-people me-1"></i> Kelola Jurnalis</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab(event, 'contactTab')"><i class="bi bi-whatsapp me-1"></i> Narahubung Admin</a></li>
-        </ul>
+      <div class="dashboard-container">
 
-        <!-- ADMIN TAB 0: DASHBOARD STATS -->
-        <div id="dashTab" class="tab-content-admin">
-          <div class="row g-3 mb-4">
-            <div class="col-6 col-md-3">
-              <div class="card stat-card shadow-sm p-3 border-start border-4 border-dark">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div>
-                    <small class="text-muted fw-bold">TOTAL BERITA</small>
-                    <h2 class="fw-bold my-1" id="statTotal">0</h2>
-                    <small class="text-muted">Semua Naskah</small>
-                  </div>
-                  <div class="stat-icon bg-dark text-white shadow-sm"><i class="bi bi-journal-text"></i></div>
-                </div>
-              </div>
+        <!-- === AUTH SECTION (LOGIN / REGISTER) === -->
+        <div id="authSection">
+          <div class="text-center my-4">
+            <div class="press-badge-icon mb-2">
+              <i class="bi bi-journal-richtext"></i>
             </div>
-            <div class="col-6 col-md-3">
-              <div class="card stat-card shadow-sm p-3 border-start border-4 border-success">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div>
-                    <small class="text-success fw-bold">DISETUJUI</small>
-                    <h2 class="fw-bold text-success my-1" id="statApproved">0</h2>
-                    <small class="text-muted">Terpublikasi</small>
-                  </div>
-                  <div class="stat-icon bg-success-subtle text-success shadow-sm"><i class="bi bi-check-circle-fill"></i></div>
-                </div>
+            <h2 class="fw-bold mb-1">Redaksi JSIT Lampung</h2>
+            <p class="text-muted small">Menyuarakan Kebenaran, Mengabarkan Fakta & Opini Terpercaya</p>
+          </div>
+
+          <!-- FORM LOGIN -->
+          <div id="loginBox" class="card card-editorial auth-card">
+            <div class="card-body p-4 p-md-5">
+              <div class="text-center mb-4">
+                <h4 class="fw-bold mb-1"><i class="bi bi-key-fill text-warning me-2"></i>Masuk Portal</h4>
+                <p class="text-muted small">Silakan masuk dengan kredensial jurnalis/kontributor</p>
               </div>
-            </div>
-            <div class="col-6 col-md-3">
-              <div class="card stat-card shadow-sm p-3 border-start border-4 border-warning">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div>
-                    <small class="text-warning fw-bold">MENUNGGU</small>
-                    <h2 class="fw-bold text-warning my-1" id="statPending">0</h2>
-                    <small class="text-muted">Antrean Moderasi</small>
+              <div>
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Alamat Email</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
+                    <input type="email" id="loginEmail" class="form-control" placeholder="nama@organisasi.or.id" required>
                   </div>
-                  <div class="stat-icon bg-warning-subtle text-warning shadow-sm"><i class="bi bi-hourglass-split"></i></div>
                 </div>
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Kata Sandi</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-lock"></i></span>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+                  </div>
+                </div>
+                <button type="button" id="btnLogin" onclick="handleLogin()" class="btn btn-dark w-100 py-2 fw-semibold shadow-sm mt-2">
+                  <i class="bi bi-sign-in-out me-1"></i> Masuk Sekarang
+                </button>
               </div>
-            </div>
-            <div class="col-6 col-md-3">
-              <div class="card stat-card shadow-sm p-3 border-start border-4 border-danger">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div>
-                    <small class="text-danger fw-bold">DITOLAK</small>
-                    <h2 class="fw-bold text-danger my-1" id="statRejected">0</h2>
-                    <small class="text-muted">Perlu Perbaikan</small>
-                  </div>
-                  <div class="stat-icon bg-danger-subtle text-danger shadow-sm"><i class="bi bi-x-circle-fill"></i></div>
-                </div>
+              <div class="text-center mt-4 pt-2 border-top">
+                <small class="text-muted">Belum terdaftar sebagai kontributor? <a href="javascript:void(0)" onclick="switchAuth('register')" class="fw-bold text-decoration-none text-warning">Daftar Akun</a></small>
               </div>
             </div>
           </div>
 
-          <div class="card card-editorial p-4">
-            <h5 class="fw-bold mb-3"><i class="bi bi-clock-history me-2 text-warning"></i>Aktivitas Terbaru Berita</h5>
+          <!-- FORM REGISTER -->
+          <div id="registerBox" class="card card-editorial auth-card d-none">
+            <div class="card-body p-4 p-md-5">
+              <div class="text-center mb-4">
+                <h4 class="fw-bold mb-1"><i class="bi bi-person-plus-fill text-warning me-2"></i>Daftar Kontributor</h4>
+                <p class="text-muted small">Bergabunglah untuk menerbitkan berita dan artikel opini</p>
+              </div>
+              <div>
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Nama Lengkap</label>
+                  <input type="text" id="regNama" class="form-control" placeholder="Sesuai nama pena/kartu anggota" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Divisi / Jabatan</label>
+                  <input type="text" id="regDivisi" class="form-control" placeholder="Contoh: Redaksi Humas / Anggota" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Email</label>
+                  <input type="email" id="regEmail" class="form-control" placeholder="email@organisasi.or.id" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Password</label>
+                  <input type="password" id="regPassword" class="form-control" placeholder="Buat kata sandi aman" required>
+                </div>
+                <button type="button" id="btnRegister" onclick="handleRegister()" class="btn btn-dark w-100 py-2 fw-semibold shadow-sm mt-2">
+                  <i class="bi bi-check-circle me-1"></i> Registrasi Akun
+                </button>
+              </div>
+              <div class="text-center mt-4 pt-2 border-top">
+                <small class="text-muted">Sudah memiliki akun? <a href="javascript:void(0)" onclick="switchAuth('login')" class="fw-bold text-decoration-none text-warning">Masuk di sini</a></small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- === DASHBOARD USER / KONTRIBUTOR === -->
+        <div id="userDashboard" class="d-none">
+          <ul class="nav nav-pills mb-4 gap-2" id="userTabs">
+            <li class="nav-item"><a class="nav-link active" href="javascript:void(0)" onclick="switchUserTab(event, 'kirimTab')"><i class="bi bi-pencil-square me-1"></i> Kirim Berita & Opini</a></li>
+            <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchUserTab(event, 'statusTab')"><i class="bi bi-hourglass-split me-1"></i> Pantau Status Moderasi</a></li>
+            <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchUserTab(event, 'riwayatTab')"><i class="bi bi-collection-play me-1"></i> Arsip Berita Saya</a></li>
+            <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchUserTab(event, 'profilTab')"><i class="bi bi-person-gear me-1"></i> Profil Jurnalis</a></li>
+          </ul>
+
+          <!-- USER TAB 1: FORM KIRIM BERITA -->
+          <div id="kirimTab" class="tab-content-user card card-editorial p-4 p-md-5">
+            <h4 class="fw-bold mb-1"><i class="bi bi-send-fill text-warning me-2"></i>Formulir Tulis & Pengajuan Berita</h4>
+            <p class="text-muted small mb-4">Pastikan naskah tulisan Anda objektif, akurat, dan sesuai kode etik publikasi.</p>
+            
+            <form id="newsForm">
+              <input type="hidden" name="userId" id="formUserId">
+              <input type="hidden" name="penulis" id="formPenulis">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Judul Berita / Artikel</label>
+                <input type="text" name="judul" class="form-control form-control-lg" placeholder="Tuliskan judul yang lugas dan menarik..." required>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label class="form-label fw-semibold">Kategori Publikasi</label>
+                  <select name="kategori" class="form-select" required>
+                    <option value="Kegiatan">📰 Liputan Kegiatan</option>
+                    <option value="Pengumuman">📢 Pengumuman Resmi</option>
+                    <option value="Prestasi">🏆 Prestasi Organisasi</option>
+                    <option value="Opini">✍️ Artikel Opini / Gagasan</option>
+                    <option value="Nasional">🇲🇨 Berita Nasional</option>
+                    <option value="Wilayah">📍 Berita Wilayah</option>
+                    <option value="Daerah">🏘️ Berita Daerah</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Tanggal Kegiatan / Peristiwa</label>
+                  <input type="date" name="tanggal" class="form-control" required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Naskah Lengkap Berita</label>
+                <textarea name="isi" class="form-control" rows="7" placeholder="Tuliskan isi liputan berita atau opini secara lengkap di sini..." required></textarea>
+              </div>
+              <div class="mb-4">
+                <label class="form-label fw-semibold">Foto Liputan Utama (Opsional)</label>
+                <input type="file" name="gambar" id="newsGambar" class="form-control" accept="image/*">
+                <div class="form-text">Unggah foto dokumentasi pendukung naskah berita.</div>
+              </div>
+              <button type="button" id="btnSubmitNews" onclick="handleNewsSubmit()" class="btn btn-dark fw-semibold px-4 py-2">
+                <i class="bi bi-cloud-upload me-1"></i> Kirimkan ke Redaksi
+              </button>
+            </form>
+          </div>
+
+          <!-- USER TAB 2: PANTAU STATUS -->
+          <div id="statusTab" class="tab-content-user d-none card card-editorial p-4">
+            <h5 class="fw-bold mb-3"><i class="bi bi-clock-history text-warning me-2"></i>Status Peninjauan Redaksi</h5>
+            
+            <div class="table-toolbar">
+              <div class="row g-2 align-items-center">
+                <div class="col-md-5">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" id="searchUserStatus" class="form-control" placeholder="Cari judul berita atau catatan..." oninput="updateUserStatusTable()">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <select id="filterUserStatus" class="form-select form-select-sm" onchange="updateUserStatusTable()">
+                    <option value="ALL">-- Semua Status Moderasi --</option>
+                    <option value="Menunggu">Menunggu</option>
+                    <option value="Disetujui">Disetujui</option>
+                    <option value="Ditolak">Ditolak</option>
+                  </select>
+                </div>
+                <div class="col-md-3 d-flex align-items-center justify-content-md-end gap-2">
+                  <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
+                  <select id="limitUserStatus" class="form-select form-select-sm w-auto" onchange="updateUserStatusTable(true)">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
             <div class="table-responsive">
               <table class="table table-hover align-middle">
                 <thead class="table-light">
-                  <tr><th>Penulis</th><th>Judul Naskah</th><th>Tanggal</th><th>Status</th></tr>
+                  <tr><th>No</th><th>Tanggal Kirim</th><th>Judul Berita</th><th>Status Moderasi</th><th>Catatan Editor</th></tr>
                 </thead>
-                <tbody id="tblRecentBody"></tbody>
+                <tbody id="tblStatusBody"></tbody>
               </table>
             </div>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
+              <small class="text-muted" id="infoUserStatus"></small>
+              <ul class="pagination pagination-sm mb-0" id="pagUserStatus"></ul>
+            </div>
           </div>
-        </div>
 
-        <!-- ADMIN TAB 1: MODERASI -->
-        <div id="modTab" class="tab-content-admin d-none card card-editorial p-4">
-          <h5 class="fw-bold mb-3"><i class="bi bi-shield-shaded text-warning me-2"></i>Antrean Moderasi Redaksi</h5>
-          
-          <div class="table-toolbar">
-            <div class="row g-2 align-items-center">
-              <div class="col-md-5">
-                <div class="input-group input-group-sm">
-                  <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                  <input type="text" id="searchAdminMod" class="form-control" placeholder="Cari penulis, judul, atau naskah..." oninput="updateAdminModTable()">
+          <!-- USER TAB 3: ARSIP BERITA SAYA -->
+          <div id="riwayatTab" class="tab-content-user d-none card card-editorial p-4">
+            <h5 class="fw-bold mb-3"><i class="bi bi-collection-play text-warning me-2"></i>Arsip Publikasi Saya</h5>
+            
+            <div class="table-toolbar">
+              <div class="row g-2 align-items-center">
+                <div class="col-md-5">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" id="searchUserRiwayat" class="form-control" placeholder="Cari judul atau isi berita..." oninput="updateUserRiwayatTable()">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <select id="filterUserRiwayatKat" class="form-select form-select-sm" onchange="updateUserRiwayatTable()">
+                    <option value="ALL">-- Semua Kategori --</option>
+                    <option value="Kegiatan">Liputan Kegiatan</option>
+                    <option value="Pengumuman">Pengumuman Resmi</option>
+                    <option value="Prestasi">Prestasi Organisasi</option>
+                    <option value="Opini">Artikel Opini</option>
+                  </select>
+                </div>
+                <div class="col-md-3 d-flex align-items-center justify-content-md-end gap-2">
+                  <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
+                  <select id="limitUserRiwayat" class="form-select form-select-sm w-auto" onchange="updateUserRiwayatTable(true)">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                  </select>
                 </div>
               </div>
-              <div class="col-md-4">
-                <select id="filterAdminModKat" class="form-select form-select-sm" onchange="updateAdminModTable()">
-                  <option value="ALL">-- Semua Kategori --</option>
-                  <option value="Kegiatan">Liputan Kegiatan</option>
-                  <option value="Pengumuman">Pengumuman Resmi</option>
-                  <option value="Prestasi">Prestasi Organisasi</option>
-                  <option value="Opini">Artikel Opini</option>
-                </select>
-              </div>
-              <div class="col-md-3 d-flex align-items-center justify-content-md-end gap-2">
-                <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
-                <select id="limitAdminMod" class="form-select form-select-sm w-auto" onchange="updateAdminModTable(true)">
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                </select>
-              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr><th>No</th><th>Tanggal Kirim</th><th>Judul Berita</th><th>Kategori</th><th>Aksi</th></tr>
+                </thead>
+                <tbody id="tblRiwayatBody"></tbody>
+              </table>
+            </div>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
+              <small class="text-muted" id="infoUserRiwayat"></small>
+              <ul class="pagination pagination-sm mb-0" id="pagUserRiwayat"></ul>
             </div>
           </div>
 
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead class="table-light">
-                <tr><th>Penulis</th><th>Tanggal</th><th>Judul Naskah</th><th>Kategori</th><th>Aksi Redaksi</th></tr>
-              </thead>
-              <tbody id="tblModBody"></tbody>
-            </table>
-          </div>
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
-            <small class="text-muted" id="infoAdminMod"></small>
-            <ul class="pagination pagination-sm mb-0" id="pagAdminMod"></ul>
+          <!-- USER TAB 4: EDIT PROFIL -->
+          <div id="profilTab" class="tab-content-user d-none card card-editorial p-4" style="max-width:550px;">
+            <h5 class="fw-bold mb-3"><i class="bi bi-person-lines-fill text-warning me-2"></i>Pengaturan Biodata Redaksi</h5>
+            <div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Nama Lengkap</label>
+                <input type="text" id="profNama" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Divisi / Jabatan</label>
+                <input type="text" id="profDivisi" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Ganti Kata Sandi (Kosongkan jika tidak diubah)</label>
+                <input type="password" id="profNewPass" class="form-control" placeholder="••••••••">
+              </div>
+              <button type="button" onclick="handleUpdateProfile()" class="btn btn-dark fw-semibold px-4">Simpan Perubahan</button>
+            </div>
           </div>
         </div>
 
-        <!-- ADMIN TAB 2: SEMUA BERITA -->
-        <div id="allNewsTab" class="tab-content-admin d-none card card-editorial p-4">
-          <h5 class="fw-bold mb-3"><i class="bi bi-collection text-primary me-2"></i>Arsip Seluruh Berita Portal</h5>
-          
-          <div class="table-toolbar">
-            <div class="row g-2 align-items-center">
-              <div class="col-md-4">
-                <div class="input-group input-group-sm">
-                  <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                  <input type="text" id="searchAdminAllNews" class="form-control" placeholder="Cari penulis, judul, isi..." oninput="updateAdminAllNewsTable()">
+        <!-- === DASHBOARD ADMIN / DEWAN REDAKSI === -->
+        <div id="adminDashboard" class="d-none">
+          <ul class="nav nav-pills mb-4 gap-2" id="adminTabs">
+            <li class="nav-item"><a class="nav-link active" href="javascript:void(0)" onclick="switchAdminTab(event, 'dashTab')"><i class="bi bi-speedometer2 me-1"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab(event, 'modTab')"><i class="bi bi-shield-check me-1"></i> Antrean Moderasi</a></li>
+            <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab(event, 'allNewsTab')"><i class="bi bi-newspaper me-1"></i> Seluruh Berita</a></li>
+            <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab(event, 'usersTab')"><i class="bi bi-people me-1"></i> Kelola Jurnalis</a></li>
+            <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="switchAdminTab(event, 'contactTab')"><i class="bi bi-whatsapp me-1"></i> Narahubung Admin</a></li>
+          </ul>
+
+          <!-- ADMIN TAB 0: DASHBOARD STATS -->
+          <div id="dashTab" class="tab-content-admin">
+            <div class="row g-3 mb-4">
+              <div class="col-6 col-md-3">
+                <div class="card stat-card shadow-sm p-3 border-start border-4 border-dark">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                      <small class="text-muted fw-bold">TOTAL BERITA</small>
+                      <h2 class="fw-bold my-1" id="statTotal">0</h2>
+                      <small class="text-muted">Semua Naskah</small>
+                    </div>
+                    <div class="stat-icon bg-dark text-white shadow-sm"><i class="bi bi-journal-text"></i></div>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-3">
-                <select id="filterAdminAllStatus" class="form-select form-select-sm" onchange="updateAdminAllNewsTable()">
-                  <option value="ALL">-- Semua Status --</option>
-                  <option value="Disetujui">Disetujui</option>
-                  <option value="Menunggu">Menunggu</option>
-                  <option value="Ditolak">Ditolak</option>
-                </select>
-              </div>
-              <div class="col-md-3">
-                <select id="filterAdminAllKat" class="form-select form-select-sm" onchange="updateAdminAllNewsTable()">
-                  <option value="ALL">-- Semua Kategori --</option>
-                  <option value="Kegiatan">Liputan Kegiatan</option>
-                  <option value="Pengumuman">Pengumuman Resmi</option>
-                  <option value="Prestasi">Prestasi Organisasi</option>
-                  <option value="Opini">Artikel Opini</option>
-                </select>
-              </div>
-              <div class="col-md-2 d-flex align-items-center justify-content-md-end gap-2">
-                <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
-                <select id="limitAdminAllNews" class="form-select form-select-sm w-auto" onchange="updateAdminAllNewsTable(true)">
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead class="table-light">
-                <tr><th>Penulis</th><th>Judul Naskah</th><th>Status Publikasi</th><th>Aksi</th></tr>
-              </thead>
-              <tbody id="tblAllNewsBody"></tbody>
-            </table>
-          </div>
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
-            <small class="text-muted" id="infoAdminAllNews"></small>
-            <ul class="pagination pagination-sm mb-0" id="pagAdminAllNews"></ul>
-          </div>
-        </div>
-
-        <!-- ADMIN TAB 3: KELOLA USER -->
-        <div id="usersTab" class="tab-content-admin d-none card card-editorial p-4">
-          <h5 class="fw-bold mb-3"><i class="bi bi-people-fill text-primary me-2"></i>Manajemen Jurnalis & Hak Akses</h5>
-          
-          <div class="table-toolbar">
-            <div class="row g-2 align-items-center">
-              <div class="col-md-4">
-                <div class="input-group input-group-sm">
-                  <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                  <input type="text" id="searchAdminUsers" class="form-control" placeholder="Cari nama, email, divisi..." oninput="updateAdminUsersTable()">
+              <div class="col-6 col-md-3">
+                <div class="card stat-card shadow-sm p-3 border-start border-4 border-success">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                      <small class="text-success fw-bold">DISETUJUI</small>
+                      <h2 class="fw-bold text-success my-1" id="statApproved">0</h2>
+                      <small class="text-muted">Terpublikasi</small>
+                    </div>
+                    <div class="stat-icon bg-success-subtle text-success shadow-sm"><i class="bi bi-check-circle-fill"></i></div>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-3">
-                <select id="filterAdminUserRole" class="form-select form-select-sm" onchange="updateAdminUsersTable()">
-                  <option value="ALL">-- Semua Peran (Role) --</option>
-                  <option value="User">User / Kontributor</option>
-                  <option value="Admin">Admin / Redaksi</option>
-                </select>
+              <div class="col-6 col-md-3">
+                <div class="card stat-card shadow-sm p-3 border-start border-4 border-warning">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                      <small class="text-warning fw-bold">MENUNGGU</small>
+                      <h2 class="fw-bold text-warning my-1" id="statPending">0</h2>
+                      <small class="text-muted">Antrean Moderasi</small>
+                    </div>
+                    <div class="stat-icon bg-warning-subtle text-warning shadow-sm"><i class="bi bi-hourglass-split"></i></div>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-3">
-                <select id="filterAdminUserStatus" class="form-select form-select-sm" onchange="updateAdminUsersTable()">
-                  <option value="ALL">-- Semua Keaktifan --</option>
-                  <option value="Active">Active (Aktif)</option>
-                  <option value="Blocked">Blocked (Diblokir)</option>
-                </select>
+              <div class="col-6 col-md-3">
+                <div class="card stat-card shadow-sm p-3 border-start border-4 border-danger">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                      <small class="text-danger fw-bold">DITOLAK</small>
+                      <h2 class="fw-bold text-danger my-1" id="statRejected">0</h2>
+                      <small class="text-muted">Perlu Perbaikan</small>
+                    </div>
+                    <div class="stat-icon bg-danger-subtle text-danger shadow-sm"><i class="bi bi-x-circle-fill"></i></div>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-2 d-flex align-items-center justify-content-md-end gap-2">
-                <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
-                <select id="limitAdminUsers" class="form-select form-select-sm w-auto" onchange="updateAdminUsersTable(true)">
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                </select>
+            </div>
+
+            <div class="card card-editorial p-4">
+              <h5 class="fw-bold mb-3"><i class="bi bi-clock-history me-2 text-warning"></i>Aktivitas Terbaru Berita</h5>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                  <thead class="table-light">
+                    <tr><th>Penulis</th><th>Judul Naskah</th><th>Tanggal</th><th>Status</th></tr>
+                  </thead>
+                  <tbody id="tblRecentBody"></tbody>
+                </table>
               </div>
             </div>
           </div>
 
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead class="table-light">
-                <tr><th>Nama</th><th>Email</th><th>Divisi</th><th>Peran</th><th>Status</th><th>Aksi</th></tr>
-              </thead>
-              <tbody id="tblUsersBody"></tbody>
-            </table>
-          </div>
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
-            <small class="text-muted" id="infoAdminUsers"></small>
-            <ul class="pagination pagination-sm mb-0" id="pagAdminUsers"></ul>
-          </div>
-        </div>
-
-        <!-- ADMIN TAB 4: NARAHUBUNG ADMIN -->
-        <div id="contactTab" class="tab-content-admin d-none card card-editorial p-4" style="max-width: 550px;">
-          <h5 class="fw-bold mb-3"><i class="bi bi-whatsapp text-success me-2"></i>Pengaturan Narahubung WhatsApp</h5>
-          <p class="text-muted small mb-4">Masukkan nomor WhatsApp aktif Redaksi/Admin untuk konfirmasi naskah.</p>
-          <div>
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Nomor WhatsApp Admin</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light fw-bold"><i class="bi bi-telephone-fill me-1"></i> +</span>
-                <input type="text" id="inputAdminPhone" class="form-control" placeholder="6281234567890" required>
+          <!-- ADMIN TAB 1: MODERASI -->
+          <div id="modTab" class="tab-content-admin d-none card card-editorial p-4">
+            <h5 class="fw-bold mb-3"><i class="bi bi-shield-shaded text-warning me-2"></i>Antrean Moderasi Redaksi</h5>
+            
+            <div class="table-toolbar">
+              <div class="row g-2 align-items-center">
+                <div class="col-md-5">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" id="searchAdminMod" class="form-control" placeholder="Cari penulis, judul, atau naskah..." oninput="updateAdminModTable()">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <select id="filterAdminModKat" class="form-select form-select-sm" onchange="updateAdminModTable()">
+                    <option value="ALL">-- Semua Kategori --</option>
+                    <option value="Kegiatan">Liputan Kegiatan</option>
+                    <option value="Pengumuman">Pengumuman Resmi</option>
+                    <option value="Prestasi">Prestasi Organisasi</option>
+                    <option value="Opini">Artikel Opini</option>
+                  </select>
+                </div>
+                <div class="col-md-3 d-flex align-items-center justify-content-md-end gap-2">
+                  <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
+                  <select id="limitAdminMod" class="form-select form-select-sm w-auto" onchange="updateAdminModTable(true)">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                  </select>
+                </div>
               </div>
-              <div class="form-text">Format internasional diawali 62 (contoh: 6281234567890).</div>
             </div>
-            <button type="button" id="btnSaveContact" onclick="handleSaveContact()" class="btn btn-dark fw-semibold px-4">
-              <i class="bi bi-floppy me-1"></i> Simpan Narahubung
-            </button>
+
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr><th>Penulis</th><th>Tanggal</th><th>Judul Naskah</th><th>Kategori</th><th>Aksi Redaksi</th></tr>
+                </thead>
+                <tbody id="tblModBody"></tbody>
+              </table>
+            </div>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
+              <small class="text-muted" id="infoAdminMod"></small>
+              <ul class="pagination pagination-sm mb-0" id="pagAdminMod"></ul>
+            </div>
           </div>
+
+          <!-- ADMIN TAB 2: SEMUA BERITA -->
+          <div id="allNewsTab" class="tab-content-admin d-none card card-editorial p-4">
+            <h5 class="fw-bold mb-3"><i class="bi bi-collection text-primary me-2"></i>Arsip Seluruh Berita Portal</h5>
+            
+            <div class="table-toolbar">
+              <div class="row g-2 align-items-center">
+                <div class="col-md-4">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" id="searchAdminAllNews" class="form-control" placeholder="Cari penulis, judul, isi..." oninput="updateAdminAllNewsTable()">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <select id="filterAdminAllStatus" class="form-select form-select-sm" onchange="updateAdminAllNewsTable()">
+                    <option value="ALL">-- Semua Status --</option>
+                    <option value="Disetujui">Disetujui</option>
+                    <option value="Menunggu">Menunggu</option>
+                    <option value="Ditolak">Ditolak</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <select id="filterAdminAllKat" class="form-select form-select-sm" onchange="updateAdminAllNewsTable()">
+                    <option value="ALL">-- Semua Kategori --</option>
+                    <option value="Kegiatan">Liputan Kegiatan</option>
+                    <option value="Pengumuman">Pengumuman Resmi</option>
+                    <option value="Prestasi">Prestasi Organisasi</option>
+                    <option value="Opini">Artikel Opini</option>
+                  </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-center justify-content-md-end gap-2">
+                  <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
+                  <select id="limitAdminAllNews" class="form-select form-select-sm w-auto" onchange="updateAdminAllNewsTable(true)">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr><th>Penulis</th><th>Judul Naskah</th><th>Status Publikasi</th><th>Aksi</th></tr>
+                </thead>
+                <tbody id="tblAllNewsBody"></tbody>
+              </table>
+            </div>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
+              <small class="text-muted" id="infoAdminAllNews"></small>
+              <ul class="pagination pagination-sm mb-0" id="pagAdminAllNews"></ul>
+            </div>
+          </div>
+
+          <!-- ADMIN TAB 3: KELOLA USER -->
+          <div id="usersTab" class="tab-content-admin d-none card card-editorial p-4">
+            <h5 class="fw-bold mb-3"><i class="bi bi-people-fill text-primary me-2"></i>Manajemen Jurnalis & Hak Akses</h5>
+            
+            <div class="table-toolbar">
+              <div class="row g-2 align-items-center">
+                <div class="col-md-4">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" id="searchAdminUsers" class="form-control" placeholder="Cari nama, email, divisi..." oninput="updateAdminUsersTable()">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <select id="filterAdminUserRole" class="form-select form-select-sm" onchange="updateAdminUsersTable()">
+                    <option value="ALL">-- Semua Peran (Role) --</option>
+                    <option value="User">User / Kontributor</option>
+                    <option value="Admin">Admin / Redaksi</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <select id="filterAdminUserStatus" class="form-select form-select-sm" onchange="updateAdminUsersTable()">
+                    <option value="ALL">-- Semua Keaktifan --</option>
+                    <option value="Active">Active (Aktif)</option>
+                    <option value="Blocked">Blocked (Diblokir)</option>
+                  </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-center justify-content-md-end gap-2">
+                  <label class="small text-muted mb-0 fw-semibold">Tampil:</label>
+                  <select id="limitAdminUsers" class="form-select form-select-sm w-auto" onchange="updateAdminUsersTable(true)">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr><th>Nama</th><th>Email</th><th>Divisi</th><th>Peran</th><th>Status</th><th>Aksi</th></tr>
+                </thead>
+                <tbody id="tblUsersBody"></tbody>
+              </table>
+            </div>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
+              <small class="text-muted" id="infoAdminUsers"></small>
+              <ul class="pagination pagination-sm mb-0" id="pagAdminUsers"></ul>
+            </div>
+          </div>
+
+          <!-- ADMIN TAB 4: NARAHUBUNG ADMIN -->
+          <div id="contactTab" class="tab-content-admin d-none card card-editorial p-4" style="max-width: 550px;">
+            <h5 class="fw-bold mb-3"><i class="bi bi-whatsapp text-success me-2"></i>Pengaturan Narahubung WhatsApp</h5>
+            <p class="text-muted small mb-4">Masukkan nomor WhatsApp aktif Redaksi/Admin untuk konfirmasi naskah.</p>
+            <div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Nomor WhatsApp Admin</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light fw-bold"><i class="bi bi-telephone-fill me-1"></i> +</span>
+                  <input type="text" id="inputAdminPhone" class="form-control" placeholder="6281234567890" required>
+                </div>
+                <div class="form-text">Format internasional diawali 62 (contoh: 6281234567890).</div>
+              </div>
+              <button type="button" id="btnSaveContact" onclick="handleSaveContact()" class="btn btn-dark fw-semibold px-4">
+                <i class="bi bi-floppy me-1"></i> Simpan Narahubung
+              </button>
+            </div>
+          </div>
+
         </div>
 
       </div>
-
     </div>
   </div>
 
@@ -1236,6 +1306,43 @@
       <i class="bi bi-whatsapp"></i>
     </a>
   </div>
+
+  <!-- ================= FOOTER REDAKSI PUBLIK ================= -->
+  <footer class="public-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-5">
+          <h5 class="fw-bold text-warning"><i class="fa-solid fa-feather-pointed me-2"></i>JSIT Lampung - Portal Redaksi</h5>
+          <p class="small text-secondary">
+            Wadah publikasi resmi pers dan informasi Jaringan Sekolah Islam Terpadu (JSIT) Wilayah Lampung. Mengabarkan fakta, gagasan, dan berita seputar pendidikan Islam terpadu secara objektif dan terpercaya.
+          </p>
+        </div>
+        <div class="col-md-3">
+          <h5 class="fw-bold">Pranala Pintas</h5>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="javascript:void(0)" onclick="filterPublicCategory('ALL')"><i class="bi bi-chevron-right me-1 text-warning"></i> Berita Utama</a></li>
+            <li class="mb-2"><a href="javascript:void(0)" onclick="filterPublicCategory('Kegiatan')"><i class="bi bi-chevron-right me-1 text-warning"></i> Liputan Kegiatan</a></li>
+            <li class="mb-2"><a href="javascript:void(0)" onclick="filterPublicCategory('Opini')"><i class="bi bi-chevron-right me-1 text-warning"></i> Artikel Opini</a></li>
+            <li class="mb-2"><a href="javascript:void(0)" onclick="handleLoginIconClick()"><i class="bi bi-chevron-right me-1 text-warning"></i> Login Kontributor</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5 class="fw-bold">Sekretariat Redaksi</h5>
+          <p class="small text-secondary mb-1"><i class="fa-solid fa-location-dot me-2 text-warning"></i> JSIT Wilayah Lampung, Indonesia</p>
+          <p class="small text-secondary mb-1"><i class="fa-solid fa-envelope me-2 text-warning"></i> sekretariat@jsit.or.id</p>
+          <p class="small text-secondary"><i class="fa-solid fa-clock me-2 text-warning"></i> Jam Operasional: Senin - Jumat (08.00 - 16.00 WIB)</p>
+        </div>
+      </div>
+      <hr class="border-secondary my-4">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small text-secondary">
+        <div>&copy; 2026 JSIT Lampung Redaksi. Hak Cipta Dilindungi Undang-Undang.</div>
+        <div class="mt-2 mt-md-0">
+          <a href="javascript:void(0)" onclick="showPublicPortal()" class="me-3">Beranda</a>
+          <a href="javascript:void(0)" onclick="handleLoginIconClick()">Portal Jurnalis</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <!-- ================= JAVASCRIPT LOGIC & BACKEND API INTEGRATION ================= -->
   <script>
@@ -1269,10 +1376,13 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbwp6gqwTkvq84_lzCIM-td6TMew9xDCc2yaYweBxphfWbBJc263dC4DbC9g0HQf580R/exec";
 
     let currentUser = null;
+    let rawPublicNews = [];
+    let publicNewsCache = [];
     let userNewsCache = [];
     let adminNewsCache = [];
     let adminUsersCache = [];
     let currentAdminPhone = "6281234567890";
+    let activePublicCategory = "ALL";
 
     const pageState = {
       userStatus: 1,
@@ -1312,9 +1422,11 @@
         const publishedNews = Array.isArray(articles) ? articles.filter(item => !item.status || item.status === 'Disetujui' || item.status === 'Approved' || item.status === 'Published') : [];
 
         if (publishedNews.length > 0) {
-          renderTicker(publishedNews);
-          renderHeroSlider(publishedNews.slice(0, 3));
-          renderNewsGrid(publishedNews);
+          rawPublicNews = publishedNews;
+          publicNewsCache = publishedNews;
+          renderTicker(publicNewsCache);
+          renderHeroSlider(publicNewsCache.slice(0, 3));
+          renderNewsGrid(publicNewsCache);
         } else {
           renderFallbackData();
         }
@@ -1324,12 +1436,61 @@
       }
     }
 
+    // FILTER KATEGORI BERITA PUBLIK
+    function filterPublicCategory(category) {
+      showPublicPortal();
+      activePublicCategory = category;
+
+      // Update Nav Link Active Class
+      document.querySelectorAll('.nav-cat-link').forEach(link => {
+        if (link.getAttribute('data-cat') === category) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      const titleEl = document.getElementById('publicCategoryTitle');
+      if (category === 'ALL') {
+        titleEl.innerText = "Berita Terposting";
+        publicNewsCache = [...rawPublicNews];
+      } else {
+        titleEl.innerText = `Kategori: ${category}`;
+        publicNewsCache = rawPublicNews.filter(n => {
+          const cat = (n.category || n.kategori || '').toLowerCase();
+          return cat === category.toLowerCase();
+        });
+      }
+
+      renderNewsGrid(publicNewsCache);
+    }
+
+    // SEARCH LIVE BERITA PUBLIK
+    function handlePublicSearch() {
+      const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+      let filtered = rawPublicNews;
+
+      if (activePublicCategory !== 'ALL') {
+        filtered = filtered.filter(n => (n.category || n.kategori || '').toLowerCase() === activePublicCategory.toLowerCase());
+      }
+
+      if (keyword) {
+        filtered = filtered.filter(n => {
+          const t = (n.title || n.judul || '').toLowerCase();
+          const i = (n.isi || n.excerpt || '').toLowerCase();
+          return t.includes(keyword) || i.includes(keyword);
+        });
+      }
+
+      renderNewsGrid(filtered);
+    }
+
     function renderTicker(data) {
       const tickerContainer = document.getElementById('tickerText');
       if (!data.length) return;
 
-      tickerContainer.innerHTML = data.map(item => `
-        <a href="javascript:void(0)" onclick="previewNewsModal('${item.beritaId || ''}')">• ${item.title || item.judul}</a>
+      tickerContainer.innerHTML = data.map((item, idx) => `
+        <a href="javascript:void(0)" onclick="readPublicNewsModal(${idx})">• ${item.title || item.judul}</a>
       `).join('');
     }
 
@@ -1337,14 +1498,22 @@
       const wrapper = document.getElementById('slideWrapper');
       const dotsContainer = document.getElementById('dotsContainer');
       
+      if (!wrapper || !dotsContainer) return;
       wrapper.innerHTML = '';
       dotsContainer.innerHTML = '';
       totalSlides = heroData.length;
 
+      if (totalSlides === 0) {
+        document.getElementById('heroSection').style.display = 'none';
+        return;
+      } else {
+        document.getElementById('heroSection').style.display = 'block';
+      }
+
       heroData.forEach((item, idx) => {
         const activeClass = idx === 0 ? 'active' : '';
         wrapper.innerHTML += `
-          <div class="slide ${activeClass}">
+          <div class="slide ${activeClass}" onclick="readPublicNewsModal(${idx})">
             <img src="${item.image || item.gambar || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c'}" class="slide-bg" alt="Slide">
             <div class="slide-content">
               <span class="slide-tag">${item.category || item.kategori || 'Utama'}</span>
@@ -1356,7 +1525,10 @@
 
         const dot = document.createElement('div');
         dot.className = `dot ${activeClass}`;
-        dot.addEventListener('click', () => goToSlide(idx));
+        dot.addEventListener('click', (e) => {
+          e.stopPropagation();
+          goToSlide(idx);
+        });
         dotsContainer.appendChild(dot);
       });
 
@@ -1365,8 +1537,15 @@
 
     function renderNewsGrid(data) {
       const grid = document.getElementById('newsGrid');
-      grid.innerHTML = data.map(item => `
-        <article class="news-card">
+      if (!grid) return;
+
+      if (data.length === 0) {
+        grid.innerHTML = `<div class="col-12 text-center py-5"><i class="bi bi-newspaper fs-1 text-muted"></i><p class="text-muted mt-2">Tidak ada berita yang ditemukan untuk kategori atau kata kunci ini.</p></div>`;
+        return;
+      }
+
+      grid.innerHTML = data.map((item, idx) => `
+        <article class="news-card" onclick="readPublicNewsModal(${idx})">
           <img src="${item.image || item.gambar || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167'}" class="news-img" alt="Berita">
           <div class="news-body">
             <div class="news-meta">
@@ -1378,6 +1557,30 @@
           </div>
         </article>
       `).join('');
+    }
+
+    function readPublicNewsModal(index) {
+      const item = publicNewsCache[index] || rawPublicNews[index];
+      if (!item) return;
+
+      Swal.fire({
+        title: item.title || item.judul,
+        html: `
+          <div class="text-start">
+            <p class="text-muted small mb-2">
+              <i class="bi bi-folder-fill text-warning me-1"></i> Kategori: <strong>${item.category || item.kategori || 'Berita'}</strong> | 
+              <i class="bi bi-calendar-event me-1 ms-2"></i> ${item.date || item.tanggalKegiatan || item.tanggalKirim || ''}
+            </p>
+            ${item.image || item.gambar ? `<img src="${item.image || item.gambar}" class="img-fluid rounded mb-3 shadow-sm" style="max-height:300px; width:100%; object-fit:cover;">` : ''}
+            <div class="p-3 bg-light rounded text-dark" style="white-space: pre-line; text-align: justify; line-height: 1.7; max-height: 350px; overflow-y: auto;">
+              ${item.isi || item.excerpt || 'Tidak ada isi berita.'}
+            </div>
+          </div>
+        `,
+        width: '700px',
+        confirmButtonText: 'Tutup Bacaan',
+        confirmButtonColor: '#0a2540'
+      });
     }
 
     function goToSlide(index) {
@@ -1416,10 +1619,12 @@
 
     function renderFallbackData() {
       const sample = [
-        { title: "Rapat Kerja Wilayah JSIT Lampung Menetapkan Program 2026", kategori: "WILAYAH", date: "30 Sep 2026", isi: "Rencana strategis penguatan sistem literasi digital sekolah terpadu..." },
-        { title: "Pelatihan Jurnalistik Sekolah Menuju Era Digital", kategori: "PENDIDIKAN", date: "29 Sep 2026", isi: "Siswa diajarkan etika jurnalistik dan penulisan berita pers yang valid..." },
-        { title: "Opini: Tantangan Pendidikan Islam Terpadu Masa Depan", kategori: "OPINI", date: "28 Sep 2026", isi: "Mempertahankan nilai akhlak di tengah derasnya arus informasi kecerdasan buatan..." }
+        { title: "Rapat Kerja Wilayah JSIT Lampung Menetapkan Program 2026", kategori: "Wilayah", date: "30 Sep 2026", isi: "Rencana strategis penguatan sistem literasi digital sekolah terpadu se-Lampung..." },
+        { title: "Pelatihan Jurnalistik Sekolah Menuju Era Digital", kategori: "Kegiatan", date: "29 Sep 2026", isi: "Siswa diajarkan etika jurnalistik dan penulisan berita pers yang valid..." },
+        { title: "Opini: Tantangan Pendidikan Islam Terpadu Masa Depan", kategori: "Opini", date: "28 Sep 2026", isi: "Mempertahankan nilai akhlak di tengah derasnya arus informasi kecerdasan buatan..." }
       ];
+      rawPublicNews = sample;
+      publicNewsCache = sample;
       renderTicker(sample);
       renderHeroSlider(sample);
       renderNewsGrid(sample);
@@ -1861,7 +2066,7 @@
           <div class="text-start">
             <p class="text-muted small mb-2"><i class="bi bi-calendar-event me-1"></i> Tanggal: ${news.tanggalKegiatan || news.tanggalKirim} | Kategori: <strong>${news.kategori}</strong></p>
             ${news.gambar ? `<img src="${news.gambar}" class="img-fluid rounded mb-3 shadow-sm" style="max-height:280px; width:100%; object-fit:cover;">` : ''}
-            <div class="p-3 bg-light rounded text-secondary" style="white-space: pre-line; text-align: justify; line-height: 1.6;">${news.isi}</div>
+            <div class="p-3 bg-light rounded text-secondary" style="white-space: pre-line; text-align: justify; line-height: 1.6; max-height: 350px; overflow-y: auto;">${news.isi}</div>
           </div>
         `,
         width: '650px',

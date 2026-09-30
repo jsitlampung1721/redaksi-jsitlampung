@@ -13,20 +13,36 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome, Bootstrap 5, Bootstrap Icons, & SweetAlert2 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- FontAwesome 6.5.1, Bootstrap 5, Bootstrap Icons, & SweetAlert2 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
+    /* VARIABLES (Tema Default Light/Putih khas JSIT) */
     :root {
-      --editorial-dark: #0f172a;
-      --editorial-navy: #1e293b;
+      --bg-editorial: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      
+      --header-bg: #0a2540;  /* Dark Blue */
+      --topbar-bg: #06182b;  /* Darker Blue */
       --truth-gold: #f59e0b;
-      --truth-glow: rgba(245, 158, 11, 0.25);
-      --bg-editorial: #0f172a;
       --wa-color: #25D366;
+    }
+
+    /* MODE GELAP (DARK MODE) */
+    body.dark-mode {
+      --bg-editorial: #0f172a;
+      --card-bg: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+      --header-bg: #071527;
+      --topbar-bg: #030b16;
     }
 
     * {
@@ -34,11 +50,12 @@
       margin: 0;
       padding: 0;
       font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
 
     body {
-      background-color: var(--editorial-dark);
-      color: #f8fafc;
+      background-color: var(--bg-editorial);
+      color: var(--text-main);
       padding-bottom: 50px;
       min-height: 100vh;
     }
@@ -47,17 +64,65 @@
       font-family: 'Lora', serif;
     }
 
-    /* NAVBAR HEADER PUBLIC */
+    /* 1. TOP BAR ATAS */
+    .top-bar {
+      background-color: var(--topbar-bg);
+      color: #ffffff;
+      padding: 8px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .top-left, .top-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .top-bar a {
+      color: #cbd5e1;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .top-bar a:hover {
+      color: var(--truth-gold);
+    }
+
+    .clock-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #94a3b8;
+    }
+
+    .social-icons a {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+
+    .social-icons a:hover {
+      color: var(--truth-gold);
+    }
+
+    /* 2. NAVBAR PUBLIC HEADER (DARK BLUE) */
     .navbar-public {
-      background-color: #1e293b;
+      background-color: var(--header-bg);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 24px;
-      border-bottom: 2px solid #f59e0b;
+      padding: 14px 24px;
+      border-bottom: 3px solid var(--truth-gold);
       position: sticky;
       top: 0;
       z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
 
     .brand {
@@ -65,12 +130,12 @@
       align-items: center;
       gap: 10px;
       font-weight: bold;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: #fff;
     }
 
     .brand i {
-      color: #f59e0b;
+      color: var(--truth-gold);
     }
 
     .nav-menu {
@@ -82,15 +147,18 @@
     }
 
     .nav-menu a {
-      color: #cbd5e1;
+      color: #e2e8f0;
       text-decoration: none;
       font-size: 0.95rem;
       font-weight: 500;
-      transition: color 0.3s;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
     }
 
     .nav-menu a:hover, .nav-menu a.active {
-      color: #f59e0b;
+      color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     .nav-actions {
@@ -99,7 +167,7 @@
       gap: 12px;
     }
 
-    /* SEARCH BOX MELEBAR */
+    /* SEARCH BOX */
     .search-box {
       position: relative;
       display: flex;
@@ -111,7 +179,7 @@
       padding: 0;
       border: none;
       outline: none;
-      background-color: #334155;
+      background-color: rgba(255, 255, 255, 0.15);
       color: #fff;
       border-radius: 20px;
       font-size: 0.9rem;
@@ -120,24 +188,24 @@
     }
 
     .search-box.active .search-input {
-      width: 200px;
+      width: 180px;
       padding: 8px 16px;
       padding-right: 36px;
       opacity: 1;
     }
 
-    .search-btn, .icon-login-btn {
-      background-color: #f59e0b;
+    .search-btn, .icon-login-btn, .theme-toggle-btn {
+      background-color: var(--truth-gold);
       border: none;
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       color: #0f172a;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 0.95rem;
       transition: transform 0.2s, background-color 0.2s;
     }
 
@@ -145,9 +213,20 @@
       position: absolute;
       right: 2px;
       background: transparent;
-      color: #f59e0b;
+      color: var(--truth-gold);
       width: 32px;
       height: 32px;
+    }
+
+    .theme-toggle-btn {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .theme-toggle-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
     }
 
     .search-btn:hover, .icon-login-btn:hover {
@@ -157,14 +236,15 @@
 
     /* TICKER TERKINI */
     .ticker-container {
-      background-color: #1e293b;
-      margin: 15px auto;
+      background-color: var(--card-bg);
+      margin: 20px auto;
       max-width: 1200px;
       display: flex;
       align-items: center;
       border-radius: 8px;
       overflow: hidden;
-      border: 1px solid #334155;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     }
 
     .ticker-badge {
@@ -193,14 +273,14 @@
     }
 
     .ticker-text a {
-      color: #e2e8f0;
+      color: var(--text-main);
       text-decoration: none;
       margin-right: 40px;
       font-size: 0.9rem;
     }
 
     .ticker-text a:hover {
-      color: #f59e0b;
+      color: var(--truth-gold);
     }
 
     @keyframes ticker {
@@ -208,16 +288,16 @@
       100% { transform: translateX(-100%); }
     }
 
-    /* HERO SLIDER MODERN */
+    /* HERO SLIDER */
     .hero-container {
       max-width: 1200px;
       margin: 0 auto 30px auto;
       position: relative;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
       height: 420px;
-      background-color: #1e293b;
+      background-color: #0f172a;
     }
 
     .slide-wrapper {
@@ -245,20 +325,20 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       object-fit: cover;
-      filter: brightness(0.55);
+      filter: brightness(0.6);
     }
 
     .slide-content {
       position: relative;
       z-index: 2;
       padding: 40px;
-      max-width: 700px;
+      max-width: 750px;
       background: linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0));
       width: 100%;
     }
 
     .slide-tag {
-      background-color: #f59e0b;
+      background-color: var(--truth-gold);
       color: #0f172a;
       font-size: 0.75rem;
       font-weight: bold;
@@ -306,7 +386,7 @@
     }
 
     .pause-btn:hover {
-      color: #f59e0b;
+      color: var(--truth-gold);
     }
 
     .pagination-dots {
@@ -326,10 +406,10 @@
     .dot.active {
       width: 24px;
       border-radius: 10px;
-      background-color: #f59e0b;
+      background-color: var(--truth-gold);
     }
 
-    /* GRID BERITA OTOMATIS */
+    /* GRID BERITA UTAMA */
     .main-portal {
       max-width: 1200px;
       margin: 0 auto;
@@ -341,7 +421,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
-      border-left: 4px solid #f59e0b;
+      border-left: 4px solid var(--truth-gold);
       padding-left: 12px;
     }
 
@@ -352,16 +432,17 @@
     }
 
     .news-card {
-      background-color: #1e293b;
+      background-color: var(--card-bg);
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid #334155;
+      border: 1px solid var(--border-color);
       transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
 
     .news-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
 
     .news-img {
@@ -371,39 +452,40 @@
     }
 
     .news-body {
-      padding: 16px;
+      padding: 18px;
     }
 
     .news-meta {
       font-size: 0.75rem;
-      color: #f59e0b;
+      color: var(--truth-gold);
       margin-bottom: 8px;
       display: flex;
       justify-content: space-between;
+      font-weight: 600;
     }
 
     .news-title {
       font-size: 1.05rem;
       font-weight: 600;
-      color: #f8fafc;
+      color: var(--text-main);
       margin-bottom: 10px;
       line-height: 1.4;
     }
 
     .news-excerpt {
       font-size: 0.85rem;
-      color: #94a3b8;
+      color: var(--text-muted);
       line-height: 1.5;
     }
 
-    /* STYLING MULTIUSER DASHBOARD MODAL & VIEW */
+    /* DASHBOARD CARD & TABS */
     .card-editorial {
       border: none;
       border-top: 4px solid var(--truth-gold);
       border-radius: 16px;
-      box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.5);
-      background: #ffffff;
-      color: #334155;
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+      background: var(--card-bg);
+      color: var(--text-main);
     }
 
     .auth-card { 
@@ -411,12 +493,12 @@
       margin: 20px auto; 
     }
 
-    .badge-menunggu { background-color: #f59e0b; color: #fff; }
+    .badge-menunggu { background-color: var(--truth-gold); color: #fff; }
     .badge-disetujui { background-color: #10b981; color: #fff; }
     .badge-ditolak { background-color: #ef4444; color: #fff; }
 
     .nav-pills .nav-link {
-      color: #cbd5e1;
+      color: var(--text-muted);
       font-weight: 500;
       border-radius: 8px;
       transition: all 0.2s ease;
@@ -446,17 +528,19 @@
       border-left: 3px solid var(--truth-gold);
       padding-left: 12px;
       font-style: italic;
-      color: #94a3b8;
+      color: #cbd5e1;
     }
 
     .stat-card {
       border-radius: 14px;
-      border: none;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-bg);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
+
     .stat-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.08);
     }
 
     .stat-icon {
@@ -499,23 +583,23 @@
       position: fixed;
       bottom: 35px;
       right: 95px;
-      background: #ffffff;
-      color: #0f172a;
+      background: var(--card-bg);
+      color: var(--text-main);
       padding: 6px 14px;
       border-radius: 20px;
       font-size: 0.85rem;
       font-weight: 600;
       box-shadow: 0 4px 15px rgba(0,0,0,0.12);
       z-index: 1049;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
     .table-toolbar {
-      background-color: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
       border-radius: 12px;
       padding: 12px;
       margin-bottom: 16px;
@@ -530,11 +614,34 @@
 </head>
 <body>
 
-  <!-- ================= HEADER NAVBAR PUBLIC ================= -->
+  <!-- ================= TOP BAR ATAS ================= -->
+  <div class="top-bar">
+    <div class="top-left">
+      <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-location-dot"></i> Sekretariat
+      </a>
+      <a href="mailto:sekretariat@jsit.or.id">
+        <i class="fa-solid fa-envelope"></i> Email
+      </a>
+      <div class="clock-item">
+        <i class="fa-solid fa-clock"></i>
+        <span id="digital-clock">Memuat jam...</span>
+      </div>
+    </div>
+    
+    <div class="top-right social-icons">
+      <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      <a href="https://tiktok.com" target="_blank" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      <a href="https://threads.net" target="_blank" aria-label="Threads"><i class="fa-brands fa-threads"></i></a>
+    </div>
+  </div>
+
+  <!-- ================= HEADER NAVBAR PUBLIC (DARK BLUE) ================= -->
   <header class="navbar-public">
     <div class="brand">
       <i class="fa-solid fa-feather-pointed"></i>
-      <span>Portal Redaksi & Pers</span>
+      <span>JSIT Lampung - Redaksi</span>
     </div>
 
     <nav class="d-none d-md-block">
@@ -560,6 +667,11 @@
       <button class="icon-login-btn" id="loginPortalBtn" title="Login / Dashboard Portal" onclick="handleLoginIconClick()">
         <i class="fa-solid fa-right-to-bracket" id="loginIconSymbol"></i>
       </button>
+
+      <!-- ICON MODE DARK / LIGHT -->
+      <button id="theme-toggle" class="theme-toggle-btn" title="Ubah Mode Tema">
+        <i id="theme-icon" class="fa-solid fa-moon"></i>
+      </button>
     </div>
   </header>
 
@@ -579,9 +691,7 @@
 
     <!-- HERO SLIDER -->
     <section class="hero-container">
-      <div class="slide-wrapper" id="slideWrapper">
-        <!-- Slide berita otomatis dari API dimasukkan di sini -->
-      </div>
+      <div class="slide-wrapper" id="slideWrapper"></div>
 
       <div class="slider-controls">
         <button class="pause-btn" id="pauseBtn" title="Pause / Play">
@@ -598,7 +708,7 @@
       </div>
 
       <div class="news-grid" id="newsGrid">
-        <p style="color: #94a3b8;">Memuat data berita...</p>
+        <p class="text-muted">Memuat data berita...</p>
       </div>
     </main>
   </div>
@@ -632,7 +742,7 @@
           <div class="press-badge-icon mb-2">
             <i class="bi bi-journal-richtext"></i>
           </div>
-          <h2 class="fw-bold text-white mb-1">Redaksi JSIT Lampung</h2>
+          <h2 class="fw-bold mb-1">Redaksi JSIT Lampung</h2>
           <p class="text-muted small">Menyuarakan Kebenaran, Mengabarkan Fakta & Opini Terpercaya</p>
         </div>
 
@@ -640,7 +750,7 @@
         <div id="loginBox" class="card card-editorial auth-card">
           <div class="card-body p-4 p-md-5">
             <div class="text-center mb-4">
-              <h4 class="fw-bold text-dark mb-1"><i class="bi bi-key-fill text-warning me-2"></i>Masuk Portal</h4>
+              <h4 class="fw-bold mb-1"><i class="bi bi-key-fill text-warning me-2"></i>Masuk Portal</h4>
               <p class="text-muted small">Silakan masuk dengan kredensial jurnalis/kontributor</p>
             </div>
             <div>
@@ -672,7 +782,7 @@
         <div id="registerBox" class="card card-editorial auth-card d-none">
           <div class="card-body p-4 p-md-5">
             <div class="text-center mb-4">
-              <h4 class="fw-bold text-dark mb-1"><i class="bi bi-person-plus-fill text-warning me-2"></i>Daftar Kontributor</h4>
+              <h4 class="fw-bold mb-1"><i class="bi bi-person-plus-fill text-warning me-2"></i>Daftar Kontributor</h4>
               <p class="text-muted small">Bergabunglah untuk menerbitkan berita dan artikel opini</p>
             </div>
             <div>
@@ -714,7 +824,7 @@
 
         <!-- USER TAB 1: FORM KIRIM BERITA -->
         <div id="kirimTab" class="tab-content-user card card-editorial p-4 p-md-5">
-          <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-send-fill text-warning me-2"></i>Formulir Tulis & Pengajuan Berita</h4>
+          <h4 class="fw-bold mb-1"><i class="bi bi-send-fill text-warning me-2"></i>Formulir Tulis & Pengajuan Berita</h4>
           <p class="text-muted small mb-4">Pastikan naskah tulisan Anda objektif, akurat, dan sesuai kode etik publikasi.</p>
           
           <form id="newsForm">
@@ -756,7 +866,7 @@
 
         <!-- USER TAB 2: PANTAU STATUS -->
         <div id="statusTab" class="tab-content-user d-none card card-editorial p-4">
-          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-clock-history text-warning me-2"></i>Status Peninjauan Redaksi</h5>
+          <h5 class="fw-bold mb-3"><i class="bi bi-clock-history text-warning me-2"></i>Status Peninjauan Redaksi</h5>
           
           <div class="table-toolbar">
             <div class="row g-2 align-items-center">
@@ -801,7 +911,7 @@
 
         <!-- USER TAB 3: ARSIP BERITA SAYA -->
         <div id="riwayatTab" class="tab-content-user d-none card card-editorial p-4">
-          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-collection-play text-warning me-2"></i>Arsip Publikasi Saya</h5>
+          <h5 class="fw-bold mb-3"><i class="bi bi-collection-play text-warning me-2"></i>Arsip Publikasi Saya</h5>
           
           <div class="table-toolbar">
             <div class="row g-2 align-items-center">
@@ -847,7 +957,7 @@
 
         <!-- USER TAB 4: EDIT PROFIL -->
         <div id="profilTab" class="tab-content-user d-none card card-editorial p-4" style="max-width:550px;">
-          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-person-lines-fill text-warning me-2"></i>Pengaturan Biodata Redaksi</h5>
+          <h5 class="fw-bold mb-3"><i class="bi bi-person-lines-fill text-warning me-2"></i>Pengaturan Biodata Redaksi</h5>
           <div>
             <div class="mb-3">
               <label class="form-label fw-semibold">Nama Lengkap</label>
@@ -880,11 +990,11 @@
         <div id="dashTab" class="tab-content-admin">
           <div class="row g-3 mb-4">
             <div class="col-6 col-md-3">
-              <div class="card stat-card shadow-sm p-3 bg-white border-start border-4 border-dark">
+              <div class="card stat-card shadow-sm p-3 border-start border-4 border-dark">
                 <div class="d-flex align-items-center justify-content-between">
                   <div>
                     <small class="text-muted fw-bold">TOTAL BERITA</small>
-                    <h2 class="fw-bold text-dark my-1" id="statTotal">0</h2>
+                    <h2 class="fw-bold my-1" id="statTotal">0</h2>
                     <small class="text-muted">Semua Naskah</small>
                   </div>
                   <div class="stat-icon bg-dark text-white shadow-sm"><i class="bi bi-journal-text"></i></div>
@@ -892,7 +1002,7 @@
               </div>
             </div>
             <div class="col-6 col-md-3">
-              <div class="card stat-card shadow-sm p-3 bg-white border-start border-4 border-success">
+              <div class="card stat-card shadow-sm p-3 border-start border-4 border-success">
                 <div class="d-flex align-items-center justify-content-between">
                   <div>
                     <small class="text-success fw-bold">DISETUJUI</small>
@@ -904,7 +1014,7 @@
               </div>
             </div>
             <div class="col-6 col-md-3">
-              <div class="card stat-card shadow-sm p-3 bg-white border-start border-4 border-warning">
+              <div class="card stat-card shadow-sm p-3 border-start border-4 border-warning">
                 <div class="d-flex align-items-center justify-content-between">
                   <div>
                     <small class="text-warning fw-bold">MENUNGGU</small>
@@ -916,7 +1026,7 @@
               </div>
             </div>
             <div class="col-6 col-md-3">
-              <div class="card stat-card shadow-sm p-3 bg-white border-start border-4 border-danger">
+              <div class="card stat-card shadow-sm p-3 border-start border-4 border-danger">
                 <div class="d-flex align-items-center justify-content-between">
                   <div>
                     <small class="text-danger fw-bold">DITOLAK</small>
@@ -930,7 +1040,7 @@
           </div>
 
           <div class="card card-editorial p-4">
-            <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-clock-history me-2 text-warning"></i>Aktivitas Terbaru Berita</h5>
+            <h5 class="fw-bold mb-3"><i class="bi bi-clock-history me-2 text-warning"></i>Aktivitas Terbaru Berita</h5>
             <div class="table-responsive">
               <table class="table table-hover align-middle">
                 <thead class="table-light">
@@ -944,7 +1054,7 @@
 
         <!-- ADMIN TAB 1: MODERASI -->
         <div id="modTab" class="tab-content-admin d-none card card-editorial p-4">
-          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-shield-shaded text-warning me-2"></i>Antrean Moderasi Redaksi</h5>
+          <h5 class="fw-bold mb-3"><i class="bi bi-shield-shaded text-warning me-2"></i>Antrean Moderasi Redaksi</h5>
           
           <div class="table-toolbar">
             <div class="row g-2 align-items-center">
@@ -990,7 +1100,7 @@
 
         <!-- ADMIN TAB 2: SEMUA BERITA -->
         <div id="allNewsTab" class="tab-content-admin d-none card card-editorial p-4">
-          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-collection text-primary me-2"></i>Arsip Seluruh Berita Portal</h5>
+          <h5 class="fw-bold mb-3"><i class="bi bi-collection text-primary me-2"></i>Arsip Seluruh Berita Portal</h5>
           
           <div class="table-toolbar">
             <div class="row g-2 align-items-center">
@@ -1044,7 +1154,7 @@
 
         <!-- ADMIN TAB 3: KELOLA USER -->
         <div id="usersTab" class="tab-content-admin d-none card card-editorial p-4">
-          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-people-fill text-primary me-2"></i>Manajemen Jurnalis & Hak Akses</h5>
+          <h5 class="fw-bold mb-3"><i class="bi bi-people-fill text-primary me-2"></i>Manajemen Jurnalis & Hak Akses</h5>
           
           <div class="table-toolbar">
             <div class="row g-2 align-items-center">
@@ -1095,7 +1205,7 @@
 
         <!-- ADMIN TAB 4: NARAHUBUNG ADMIN -->
         <div id="contactTab" class="tab-content-admin d-none card card-editorial p-4" style="max-width: 550px;">
-          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-whatsapp text-success me-2"></i>Pengaturan Narahubung WhatsApp</h5>
+          <h5 class="fw-bold mb-3"><i class="bi bi-whatsapp text-success me-2"></i>Pengaturan Narahubung WhatsApp</h5>
           <p class="text-muted small mb-4">Masukkan nomor WhatsApp aktif Redaksi/Admin untuk konfirmasi naskah.</p>
           <div>
             <div class="mb-3">
@@ -1127,9 +1237,35 @@
     </a>
   </div>
 
-  <!-- ================= JAVASCRIPT LOGIC & API INTEGRATION ================= -->
+  <!-- ================= JAVASCRIPT LOGIC & BACKEND API INTEGRATION ================= -->
   <script>
-    // URL DEPLOYMENT GOOGLE APPS SCRIPT
+    // 1. JAM DIGITAL OTOMATIS
+    function updateDigitalClock() {
+      const now = new Date();
+      const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+      const dateStr = now.toLocaleDateString('id-ID', options);
+      const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      
+      const clockEl = document.getElementById('digital-clock');
+      if (clockEl) clockEl.textContent = `${dateStr} - ${timeStr} WIB`;
+    }
+    setInterval(updateDigitalClock, 1000);
+    updateDigitalClock();
+
+    // 2. TOGGLE MODE DARK / LIGHT
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+
+    themeToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      if (document.body.classList.contains('dark-mode')) {
+        themeIcon.className = 'fa-solid fa-sun';
+      } else {
+        themeIcon.className = 'fa-solid fa-moon';
+      }
+    });
+
+    // 3. LOGIKA PORTAL & DASHBOARD BACKEND (API GOOGLE APPS SCRIPT)
     const API_URL = "https://script.google.com/macros/s/AKfycbwp6gqwTkvq84_lzCIM-td6TMew9xDCc2yaYweBxphfWbBJc263dC4DbC9g0HQf580R/exec";
 
     let currentUser = null;
@@ -1244,7 +1380,6 @@
       `).join('');
     }
 
-    // CONTROLLER SLIDER
     function goToSlide(index) {
       const slides = document.querySelectorAll('.slide');
       const dots = document.querySelectorAll('.dot');
@@ -1290,7 +1425,6 @@
       renderNewsGrid(sample);
     }
 
-    // ================= HELPER & BACKEND API COMMUNICATION =================
     async function callApi(action, payload = {}) {
       try {
         const response = await fetch(API_URL, {
@@ -1315,7 +1449,6 @@
       });
     }
 
-    // ON LOAD PAGE
     window.onload = function() {
       fetchPortalNews();
       const savedUser = localStorage.getItem('portalUser');
